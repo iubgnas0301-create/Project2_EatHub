@@ -1,0 +1,39 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="Login_UXML_02" src="project://database/Assets/UI_ToolKit/Login_sample/Login_02/Login_UXML_02.uxml?fileID=9197481963319205126&amp;guid=c8dd89e5e5ae7fd48a411dc2dff1db14&amp;type=3#Login_UXML_02" />
+    <ui:Template name="SignUp_UXML_02" src="project://database/Assets/UI_ToolKit/Login_sample/Login_02/SignUp_UXML_02.uxml?fileID=9197481963319205126&amp;guid=828a3f79cab2ecc4284bfaddc658305c&amp;type=3#SignUp_UXML_02" />
+    <Style src="project://database/Assets/UI_ToolKit/Login_sample/Login_Set.uss?fileID=7433441132597879392&amp;guid=4a8b6e740898de5408555247cc094355&amp;type=3#Login_Set" />
+    <Style src="project://database/Assets/UI_ToolKit/Custom_Element.uss?fileID=7433441132597879392&amp;guid=6c2ae0b2f7f20604ebb108b1e8bd193e&amp;type=3#Custom_Element" />
+    <ui:VisualElement name="VisualElement" style="width: 100%; height: 100%; flex-grow: 0; flex-wrap: wrap; flex-direction: column-reverse; flex-shrink: 0; background-color: rgb(0, 0, 0);">
+        <ui:Instance template="Login_UXML_02" style="height: 800px; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;" />
+        <ui:VisualElement name="Top" style="flex-grow: 1; background-color: rgba(185, 159, 76, 0); width: 100%; height: 50px; flex-shrink: 0; flex-wrap: wrap; flex-direction: column; align-items: center; justify-content: center;">
+            <ui:VisualElement name="Icon" style="background-image: url(&quot;project://database/Assets/UI_ToolKit/Image/Icon.png?fileID=21300000&amp;guid=1beb16219e874694aa3f2f2bff8d656e&amp;type=3#Icon&quot;); width: 453px; height: 417px;" />
+            <ui:VisualElement name="Icon" style="background-image: url(&quot;project://database/Assets/UI_ToolKit/Image/Name.png?fileID=21300000&amp;guid=ddb09b56ab33c654cbe1a61d8a1e9765&amp;type=3#Name&quot;); width: 595px; height: 199px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="SignUpSkrim" class="SignUpSkrim-defaut SignUpSkrim-hide" style="position: absolute; width: 100%; height: 100%;">
+            <ui:Instance template="SignUp_UXML_02" name="SignUp" class="SignUp-defaut SignUp-hide" style="position: absolute; height: 900px; width: 100%; padding-left: 50px; padding-right: 50px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="SignUp" class="SignUpSkrim-defaut" style="display: none;">
+            <ui:VisualElement name="SignUpBG" class="SignUp-defaut SignUp-hide">
+                <ui:VisualElement name="BackZone" style="flex-direction: row;">
+                    <ui:Button text="&lt; Back" name="Btn_SignUp_Back" class="Login_noneBolder_Btn" style="font-size: 40px; background-color: rgba(188, 188, 188, 0); margin-top: 20px; margin-right: 20px; margin-bottom: 0; margin-left: 50px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-font-definition: url(&quot;project://database/Assets/Font/SegoeUi/segoeuisl.ttf?fileID=12800000&amp;guid=c67cee872806f964eb84e57b34fac4b0&amp;type=3#segoeuisl&quot;); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+                </ui:VisualElement>
+                <ui:Label text="Create new account" class="Login_Title" style="padding-top: 0; padding-bottom: 0; font-size: 85px;" />
+                <ui:VisualElement name="InputZone" class="Login_inputZone" style="flex-grow: 1;">
+                    <ui:TextField placeholder-text="Username" name="CustomField" class="Login_input" />
+                    <ui:VisualElement name="Username_Error" style="flex-grow: 1;" />
+                    <ui:TextField placeholder-text="Password" password="true" name="CustomField" class="Login_input" />
+                    <ui:TextField placeholder-text="Confirm password" password="true" name="CustomField" class="Login_input" />
+                    <ui:VisualElement name="Password_Error" style="flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="TermOfService" style="padding-left: 120px; padding-bottom: 20px;">
+                    <ui:Toggle text=" I agree to the term of service" name="MyToggle" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-font-definition: url(&quot;project://database/Assets/Font/SegoeUi/segoeuii.ttf?fileID=12800000&amp;guid=086f7d3b02f3aff43a5e40ea92d7f4d9&amp;type=3#segoeuii&quot;); font-size: 50px;" />
+                </ui:VisualElement>
+                <ui:ToggleButtonGroup label="Toggle Button Group" value="10" is-multiple-selection="true" allow-empty-selection="true">
+                    <ui:Button text="Button" />
+                    <ui:Button text="Button" />
+                </ui:ToggleButtonGroup>
+                <ui:Button text="Create account" name="Btn_SignUp" class="Login_Orange_Btn" style="margin-bottom: 100px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

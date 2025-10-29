@@ -1,0 +1,17 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="RoundTextField" src="project://database/Assets/UI_ToolKit/Login_sample/Login_02/LoginCustomElement/RoundTextField.uxml?fileID=9197481963319205126&amp;guid=128c10764098d0e448f01bad44de01f2&amp;type=3#RoundTextField" />
+    <Style src="project://database/Assets/UI_ToolKit/Login_sample/Login_02/Login_CSS_02.uss?fileID=7433441132597879392&amp;guid=fe4b964d694bd154e9c3d8a91309d99d&amp;type=3#Login_CSS_02" />
+    <ui:VisualElement name="BackGround" class="Login_BG" style="padding-bottom: 80px;">
+        <ui:Label text="Member Login" name="LoginTitle" class="Login_Title" />
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:Instance template="RoundTextField" name="Username">
+                <AttributeOverrides element-name="RoundTextField" placeholder-text="Username" />
+            </ui:Instance>
+            <ui:Instance template="RoundTextField" name="Password">
+                <AttributeOverrides element-name="RoundTextField" placeholder-text="Password" password="true" />
+            </ui:Instance>
+        </ui:VisualElement>
+        <ui:Button text="LOGIN" class="Login_Orange_Btn" />
+        <ui:Button text="Create new account" name="Btn_Login_SignUp" class="Login_noneBolder_Btn" />
+    </ui:VisualElement>
+</ui:UXML>

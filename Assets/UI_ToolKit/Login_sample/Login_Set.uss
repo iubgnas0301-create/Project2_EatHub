@@ -1,0 +1,37 @@
+.SignUp-defaut {
+    height: 1000px;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out-bounce;
+    translate: 0 0%;
+}
+
+.SignUp-hide {
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out-bounce;
+    translate: 0 100%;
+}
+
+.SignUpSkrim-defaut {
+    flex-grow: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.78);
+    flex-direction: column-reverse;
+    transition-duration: 0.25s;
+    transition-timing-function: linear;
+    opacity: 1;
+}
+
+.SignUpSkrim-hide {
+    opacity: 0;
+    transition-timing-function: linear;
+    transition-duration: 0.25s;
+}
+
+#MyToggle #unity-checkmark {
+}

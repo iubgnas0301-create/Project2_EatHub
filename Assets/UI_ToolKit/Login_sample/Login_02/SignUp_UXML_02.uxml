@@ -1,0 +1,21 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="RoundTextField" src="project://database/Assets/UI_ToolKit/Login_sample/Login_02/LoginCustomElement/RoundTextField.uxml?fileID=9197481963319205126&amp;guid=128c10764098d0e448f01bad44de01f2&amp;type=3#RoundTextField" />
+    <Style src="project://database/Assets/UI_ToolKit/Login_sample/Login_02/Login_CSS_02.uss?fileID=7433441132597879392&amp;guid=fe4b964d694bd154e9c3d8a91309d99d&amp;type=3#Login_CSS_02" />
+    <ui:VisualElement name="SignUpBG" class="Login_BG" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0; padding-top: 10px; margin-bottom: 0; padding-bottom: 50px;">
+        <ui:Button text="&lt; Back" name="Btn_SignUp_Back" class="Login_noneBolder_Btn" style="-unity-text-align: middle-left; translate: -70px 0;" />
+        <ui:Label text="Create new account" class="Login_Title" style="padding-top: 0; padding-bottom: 0;" />
+        <ui:Instance template="RoundTextField" name="SU_Username">
+            <AttributeOverrides element-name="RoundTextField" placeholder-text="Username" />
+        </ui:Instance>
+        <ui:VisualElement name="UsernameError" style="flex-grow: 1;" />
+        <ui:Instance template="RoundTextField" name="SU_Password">
+            <AttributeOverrides element-name="RoundTextField" placeholder-text="Password" password="true" />
+        </ui:Instance>
+        <ui:Instance template="RoundTextField" name="SU_ConfirmPassword">
+            <AttributeOverrides element-name="RoundTextField" placeholder-text="Confirm password" password="true" />
+        </ui:Instance>
+        <ui:VisualElement name="PasswordError" style="flex-grow: 1;" />
+        <ui:VisualElement style="flex-grow: 1;" />
+        <ui:Button text="SIGN UP" class="Login_Orange_Btn" />
+    </ui:VisualElement>
+</ui:UXML>

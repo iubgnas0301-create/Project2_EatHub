@@ -1,0 +1,99 @@
+.Login_input {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 10px;
+    padding-right: 100px;
+    padding-bottom: 10px;
+    padding-left: 100px;
+    font-size: 50px;
+}
+
+.Login_Title {
+    font-size: 90px;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/Font/SegoeUi/segoeuil.ttf?fileID=12800000&guid=605b691c5af08b9409f68bada1f17d2e&type=3#segoeuil");
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+    padding-left: 40px;
+}
+
+.Login_inputZone {
+    flex-grow: 1;
+}
+
+.Login_Orange_Btn {
+    font-size: 50px;
+    -unity-font-definition: url("project://database/Assets/Font/RooneySans/RooneySansHv.OTF?fileID=12800000&guid=46a5f4d20401c574bba17fb437e327d5&type=3#RooneySansHv");
+    margin-top: 10px;
+    margin-right: 100px;
+    margin-bottom: 10px;
+    margin-left: 100px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+    border-bottom-right-radius: 60px;
+    border-bottom-left-radius: 60px;
+    border-left-color: rgba(255, 255, 255, 0);
+    background-color: rgb(255, 176, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    transition-timing-function: ease-out-elastic;
+    transition-duration: 0.2s;
+    height: 100px;
+}
+
+.Login_Orange_Btn:hover {
+    scale: 1.05 1.05;
+}
+
+.Login_Orange_Btn:active {
+    font-size: 55px;
+    height: 100px;
+}
+
+.Login_noneBolder_Btn {
+    font-size: 50px;
+    -unity-font-definition: url("project://database/Assets/Font/SegoeUi/segoeui.ttf?fileID=12800000&guid=2a75b649e734f56448abde34a4f7d58f&type=3#segoeui");
+    margin-top: 0;
+    margin-right: 100px;
+    margin-bottom: 0;
+    margin-left: 100px;
+    padding-top: 0;
+    padding-right: 15px;
+    padding-bottom: 0;
+    padding-left: 15px;
+    background-color: rgba(188, 188, 188, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.Login_noneBolder_Btn:hover {
+    -unity-font-style: bold;
+}
+
+.Login_BG {
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 80px;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-bottom-left-radius: 80px;
+}
