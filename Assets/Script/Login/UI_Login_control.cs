@@ -21,9 +21,9 @@ public class UI_Login_control : MonoBehaviour
     private string CLASS_HIDE_SIGNUP_SKRIM = "SignUpSkrim-hide";
     private string LOGIN_LABEL = "LoginTitle";
 
-    void Start()
+    void Awake()
     {
-        // tim Visual Element da tien
+        // tim Visual Element dau tien
         root = GetComponent<UIDocument>().rootVisualElement;
 
         // tim kiem cac bien con lai
@@ -41,28 +41,28 @@ public class UI_Login_control : MonoBehaviour
         StartCoroutine(FirstUpdate());
         //Typing_anim.Instance.Typing(ref LoginLabel, "Member login");
 
-        // action button
-        Btn_CreateAccount.RegisterCallback<ClickEvent>(OnCreateAccount);
-        Btn_SignUp_Back.RegisterCallback<ClickEvent>(OnCancelSigningUp);
-
-        // Undisplay Sign Up form (only do when transision END)
-        VE_SignUpBG.RegisterCallback<TransitionEndEvent>(HideSignUpUI);
-
-    }
-
-    private void OnEnable() {
         //// action button
         //Btn_CreateAccount.RegisterCallback<ClickEvent>(OnCreateAccount);
         //Btn_SignUp_Back.RegisterCallback<ClickEvent>(OnCancelSigningUp);
 
-        // Undisplay Sign Up form (only do when transision END)
+        //// Undisplay Sign Up form (only do when transision END)
         //VE_SignUpBG.RegisterCallback<TransitionEndEvent>(HideSignUpUI);
+
+    }
+
+    private void OnEnable() {
+        // action button
+        Btn_CreateAccount.RegisterCallback<ClickEvent>(OnCreateAccount);
+        Btn_SignUp_Back.RegisterCallback<ClickEvent>(OnCancelSigningUp);
+
+        //Undisplay Sign Up form(only do when transision END)
+        VE_SignUpBG.RegisterCallback<TransitionEndEvent>(HideSignUpUI);
     }
 
     private void OnDisable() {
-        //Btn_CreateAccount.UnregisterCallback<ClickEvent>(OnCreateAccount);
-        //Btn_SignUp_Back.UnregisterCallback<ClickEvent>(OnCancelSigningUp);
-        //VE_SignUpBG.UnregisterCallback<TransitionEndEvent>(HideSignUpUI);
+        Btn_CreateAccount.UnregisterCallback<ClickEvent>(OnCreateAccount);
+        Btn_SignUp_Back.UnregisterCallback<ClickEvent>(OnCancelSigningUp);
+        VE_SignUpBG.UnregisterCallback<TransitionEndEvent>(HideSignUpUI);
     }
 
     private void OnCreateAccount(ClickEvent e) {
@@ -85,7 +85,7 @@ public class UI_Login_control : MonoBehaviour
     private void HideSignUpUI(TransitionEndEvent e) {
         Debug.Log("end transision");
         if (VE_SignUpBG.ClassListContains(CLASS_HIDE_SIGNUP_BG)) {
-            // do it only on Hide action
+            // only do it only on Hide action
             VE_SignUp.style.display = DisplayStyle.None;
         }
     }

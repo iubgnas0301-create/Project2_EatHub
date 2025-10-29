@@ -16,6 +16,6 @@
         </ui:Instance>
         <ui:VisualElement name="PasswordError" style="flex-grow: 1;" />
         <ui:VisualElement style="flex-grow: 1;" />
-        <ui:Button text="SIGN UP" class="Login_Orange_Btn" />
+        <ui:Button text="SIGN UP" name="SU_BtnSignUp" class="Login_Orange_Btn" />
     </ui:VisualElement>
 </ui:UXML>

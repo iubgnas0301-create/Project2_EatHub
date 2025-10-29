@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Reflection;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.UIElements;
 public class Typing_anim : MonoBehaviour
 {
     public static Typing_anim Instance;
+
+
     private void Start() {
         Instance = this;
     }
@@ -25,4 +28,6 @@ public class Typing_anim : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
     }
+
+    
 }
