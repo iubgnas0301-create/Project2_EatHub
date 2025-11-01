@@ -33,6 +33,20 @@ public class UI_RegiterAction : MonoBehaviour
 
     [SerializeField] private float inputDelay = 1f;
 
+    private enum UsernameStatus {
+        Available,
+        TooShort,
+        Taken,
+        Checking
+    }
+
+    private enum PasswordStatus {
+        Checking,
+        TooWeak,
+        Mismatch,
+        Match
+    }
+
     private void Awake() {
         // find Visual Element root
         root = GetComponent<UIDocument>().rootVisualElement;
@@ -66,20 +80,6 @@ public class UI_RegiterAction : MonoBehaviour
         UpdateAndNotifi_Username(UsernameStatus.Checking);
         UpdateAndNotifi_Pass(PasswordStatus.Checking);
         Btn_Register.SetEnabled(false);
-    }
-
-    private enum UsernameStatus {
-        Available,
-        TooShort,
-        Taken,
-        Checking
-    }
-
-    private enum PasswordStatus {
-        Checking,
-        TooWeak,
-        Mismatch,
-        Match
     }
 
     private void OnRegister(ClickEvent evt) {
@@ -128,18 +128,17 @@ public class UI_RegiterAction : MonoBehaviour
 
 
         // request to server
-        Debug.Log("Checking username: " + username);
         WWWForm form = new WWWForm();
         form.AddField("username", username);
         WWW CheckUser = new WWW("http://localhost/EatHubConnect/UserCheckExist.php", form);
         yield return CheckUser;
 
-        Debug.Log("Answer username: " + username);
-        if (CheckUser.text == "0") {
+        string[] responseText = CheckUser.text.Split("\t");
+        if (responseText[0] == "0") {
             // Unique Username
             UpdateAndNotifi_Username(UsernameStatus.Available);
         }
-        else if (CheckUser.text == "1") {
+        else if (responseText[0] == "1") {
             // Username is exist
             UpdateAndNotifi_Username(UsernameStatus.Taken);
         }

@@ -10,8 +10,9 @@
             <ui:Instance template="RoundTextField" name="Password">
                 <AttributeOverrides element-name="RoundTextField" placeholder-text="Password" password="true" />
             </ui:Instance>
+            <ui:Label text="Label" name="LoginErrorNotifi" class="Error_Lable" />
         </ui:VisualElement>
-        <ui:Button text="LOGIN" class="Login_Orange_Btn" />
+        <ui:Button text="LOGIN" name="Btn_Login" class="Login_Orange_Btn" />
         <ui:Button text="Create new account" name="Btn_Login_SignUp" class="Login_noneBolder_Btn" />
     </ui:VisualElement>
 </ui:UXML>
