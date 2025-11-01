@@ -56,13 +56,13 @@ public class UI_Login_control : MonoBehaviour
         Btn_SignUp_Back.RegisterCallback<ClickEvent>(OnCancelSigningUp);
 
         //Undisplay Sign Up form(only do when transision END)
-        VE_SignUpBG.RegisterCallback<TransitionEndEvent>(HideSignUpUI);
+        VE_SignUpBG.RegisterCallback<TransitionEndEvent>(OnTransEnd_SignUPBG);
     }
 
     private void OnDisable() {
         Btn_CreateAccount.UnregisterCallback<ClickEvent>(OnCreateAccount);
         Btn_SignUp_Back.UnregisterCallback<ClickEvent>(OnCancelSigningUp);
-        VE_SignUpBG.UnregisterCallback<TransitionEndEvent>(HideSignUpUI);
+        VE_SignUpBG.UnregisterCallback<TransitionEndEvent>(OnTransEnd_SignUPBG);
     }
 
     private void OnCreateAccount(ClickEvent e) {
@@ -75,26 +75,27 @@ public class UI_Login_control : MonoBehaviour
     }
 
     private void OnCancelSigningUp(ClickEvent e) {
-
+        BackToLoginForm();
+    }
+    public void BackToLoginForm() {
         // transition
         VE_SignUp.AddToClassList(CLASS_HIDE_SIGNUP_SKRIM);
         VE_SignUpBG.AddToClassList(CLASS_HIDE_SIGNUP_BG);
-
     }
 
-    private void HideSignUpUI(TransitionEndEvent e) {
-        Debug.Log("end transision");
+    private void OnTransEnd_SignUPBG(TransitionEndEvent e) {
+        // only hide Sign Up form  when the Sign Up BG transision end
         if (VE_SignUpBG.ClassListContains(CLASS_HIDE_SIGNUP_BG)) {
             // only do it only on Hide action
             VE_SignUp.style.display = DisplayStyle.None;
+            Debug.Log("end transision");
         }
     }
 
-    #region corotine
+    
     private IEnumerator FirstUpdate() {
         yield return null;
         Typing_anim.Instance.Typing(ref LoginLabel, "Member login");
     }
-    #endregion
 
 }

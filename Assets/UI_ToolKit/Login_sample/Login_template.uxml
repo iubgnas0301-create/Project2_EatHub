@@ -10,30 +10,7 @@
             <ui:VisualElement name="Icon" style="background-image: url(&quot;project://database/Assets/UI_ToolKit/Image/Name.png?fileID=21300000&amp;guid=ddb09b56ab33c654cbe1a61d8a1e9765&amp;type=3#Name&quot;); width: 595px; height: 199px;" />
         </ui:VisualElement>
         <ui:VisualElement name="SignUpSkrim" class="SignUpSkrim-defaut SignUpSkrim-hide" style="position: absolute; width: 100%; height: 100%;">
-            <ui:Instance template="SignUp_UXML_02" name="SignUp" class="SignUp-defaut SignUp-hide" style="position: absolute; height: 900px; width: 100%; padding-left: 50px; padding-right: 50px;" />
-        </ui:VisualElement>
-        <ui:VisualElement name="SignUp" class="SignUpSkrim-defaut" style="display: none;">
-            <ui:VisualElement name="SignUpBG" class="SignUp-defaut SignUp-hide">
-                <ui:VisualElement name="BackZone" style="flex-direction: row;">
-                    <ui:Button text="&lt; Back" name="Btn_SignUp_Back" class="Login_noneBolder_Btn" style="font-size: 40px; background-color: rgba(188, 188, 188, 0); margin-top: 20px; margin-right: 20px; margin-bottom: 0; margin-left: 50px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-font-definition: url(&quot;project://database/Assets/Font/SegoeUi/segoeuisl.ttf?fileID=12800000&amp;guid=c67cee872806f964eb84e57b34fac4b0&amp;type=3#segoeuisl&quot;); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
-                </ui:VisualElement>
-                <ui:Label text="Create new account" class="Login_Title" style="padding-top: 0; padding-bottom: 0; font-size: 85px;" />
-                <ui:VisualElement name="InputZone" class="Login_inputZone" style="flex-grow: 1;">
-                    <ui:TextField placeholder-text="Username" name="CustomField" class="Login_input" />
-                    <ui:VisualElement name="Username_Error" style="flex-grow: 1;" />
-                    <ui:TextField placeholder-text="Password" password="true" name="CustomField" class="Login_input" />
-                    <ui:TextField placeholder-text="Confirm password" password="true" name="CustomField" class="Login_input" />
-                    <ui:VisualElement name="Password_Error" style="flex-grow: 1;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="TermOfService" style="padding-left: 120px; padding-bottom: 20px;">
-                    <ui:Toggle text=" I agree to the term of service" name="MyToggle" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-font-definition: url(&quot;project://database/Assets/Font/SegoeUi/segoeuii.ttf?fileID=12800000&amp;guid=086f7d3b02f3aff43a5e40ea92d7f4d9&amp;type=3#segoeuii&quot;); font-size: 50px;" />
-                </ui:VisualElement>
-                <ui:ToggleButtonGroup label="Toggle Button Group" value="10" is-multiple-selection="true" allow-empty-selection="true">
-                    <ui:Button text="Button" />
-                    <ui:Button text="Button" />
-                </ui:ToggleButtonGroup>
-                <ui:Button text="Create account" name="Btn_SignUp" class="Login_Orange_Btn" style="margin-bottom: 100px;" />
-            </ui:VisualElement>
+            <ui:Instance template="SignUp_UXML_02" name="SignUp" class="SignUp-defaut SignUp-hide" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

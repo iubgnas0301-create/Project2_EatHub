@@ -7,14 +7,14 @@
         <ui:Instance template="RoundTextField" name="SU_Username">
             <AttributeOverrides element-name="RoundTextField" placeholder-text="Username" />
         </ui:Instance>
-        <ui:VisualElement name="UsernameError" style="flex-grow: 1;" />
+        <ui:Label text="Label" name="SU_UserError" class="Error_Lable Error_Lable_fixOK" style="white-space: normal;" />
         <ui:Instance template="RoundTextField" name="SU_Password">
             <AttributeOverrides element-name="RoundTextField" placeholder-text="Password" password="true" />
         </ui:Instance>
         <ui:Instance template="RoundTextField" name="SU_ConfirmPassword">
             <AttributeOverrides element-name="RoundTextField" placeholder-text="Confirm password" password="true" />
         </ui:Instance>
-        <ui:VisualElement name="PasswordError" style="flex-grow: 1;" />
+        <ui:Label text="Label" name="SU_PassError" class="Error_Lable" />
         <ui:VisualElement style="flex-grow: 1;" />
         <ui:Button text="SIGN UP" name="SU_BtnSignUp" class="Login_Orange_Btn" />
     </ui:VisualElement>

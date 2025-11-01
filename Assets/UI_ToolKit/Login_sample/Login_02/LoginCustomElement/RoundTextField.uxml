@@ -1,4 +1,4 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI_ToolKit/Login_02/LoginCustomElement/Custom_uss_Element.uss?fileID=7433441132597879392&amp;guid=9dc3acaa0d4b634418a6346258756d0b&amp;type=3#Custom_uss_Element" />
-    <ui:TextField label="Round_TF_lable" placeholder-text="Round_TF_input" name="RoundTextField" class="Custom_input" />
+    <Style src="project://database/Assets/UI_ToolKit/Login_sample/Login_02/LoginCustomElement/Custom_uss_Element.uss?fileID=7433441132597879392&amp;guid=9dc3acaa0d4b634418a6346258756d0b&amp;type=3#Custom_uss_Element" />
+    <ui:TextField label="Round_TF_lable" placeholder-text="Round_TF_input" name="RoundTextField" hide-placeholder-on-focus="true" class="Custom_input" />
 </ui:UXML>
