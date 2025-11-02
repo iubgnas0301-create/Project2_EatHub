@@ -15,12 +15,14 @@ public class LoadTheTagetScene : MonoBehaviour
 
     IEnumerator LoadSceneAsync()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Loader._tagetScene.ToString());
+        yield return null;
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Loader._tagetScene);
         while (!asyncLoad.isDone)
         {
             float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
             _progressBar.fillAmount = progress;
-            _progressText.text = "Loading" + (progress * 100f).ToString("F0") + "%";
+            Debug.Log(progress);
+            _progressText.text = "Loading..." + (progress * 100f).ToString("F0") + "%";
             yield return null;
         }
     }
