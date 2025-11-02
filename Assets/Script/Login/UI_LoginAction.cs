@@ -72,6 +72,7 @@ public class UI_LoginAction : MonoBehaviour {
     
     private IEnumerator LoginCheck() {
         UpdateAndNotifi_Username(UsernameStatus.Checking);
+        UpdateAndNotifi_Password(PasswordStatus.Checking);
 
         yield return StartCoroutine(LoginCheck_Username());
 
@@ -168,6 +169,7 @@ public class UI_LoginAction : MonoBehaviour {
             _passwordStatus == PasswordStatus.Correct) {
             // Successful login
             Debug.Log("Login successful!");
+            Loader.LoadScene(SCENES.CustomerScene);
         }
     }
 }
