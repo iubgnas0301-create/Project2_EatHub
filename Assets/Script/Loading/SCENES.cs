@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum SCENES
 {
-    LoginScene,
-    LoadingScene,
-    CustomerScene,
+    LoginScene = 0,
+    LoadingScene = 1,
+    CustomerScene = 2,
 }
