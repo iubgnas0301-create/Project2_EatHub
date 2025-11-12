@@ -36,7 +36,7 @@ public class Tab_Group_01 : MonoBehaviour, I_Tab_Group_ctrl {
         foreach (Transform tab in GroupTab) {
             I_Tab_Element_ctrl tabElement = tab.GetComponent<I_Tab_Element_ctrl>();
             tabElement.Deselect();
-            Debug.Log($"{this.name} Deselect child {tab.name}");
+            //Debug.Log($"{this.name} Deselect child {tab.name}");
         }
     }
 }

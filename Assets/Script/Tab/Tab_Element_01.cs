@@ -29,12 +29,12 @@ public class Tab_Element_01 : MonoBehaviour, I_Tab_Element_ctrl {
     public void Deselect() {
         content.SetActive(false);
         ChangeVisual(false);
-        Debug.Log($"Deselect {this.name}");
+        //Debug.Log($"Deselect {this.name}");
     }
 
     public void Selected() {
         content.SetActive(true);
         ChangeVisual(true);
-        Debug.Log($"Select {this.name}");
+        //Debug.Log($"Select {this.name}");
     }
 }

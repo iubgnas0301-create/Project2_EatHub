@@ -19,9 +19,9 @@ public class LoadTheTagetScene : MonoBehaviour
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Loader._tagetScene);
         while (!asyncLoad.isDone)
         {
-            float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+            float progress = asyncLoad.progress / 0.9f;
             _progressBar.fillAmount = progress;
-            Debug.Log(progress);
+            //Debug.Log("Load Progress" + progress);
             _progressText.text = "Loading..." + (progress * 100f).ToString("F0") + "%";
             yield return null;
         }

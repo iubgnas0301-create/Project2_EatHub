@@ -21,6 +21,7 @@ public class UI_LoginAction : MonoBehaviour {
     // variables
     private UsernameStatus _usernameStartus;
     private PasswordStatus _passwordStatus;
+    private string UserID;
 
     private enum UsernameStatus {
         Checking,
@@ -73,40 +74,43 @@ public class UI_LoginAction : MonoBehaviour {
     private IEnumerator LoginCheck() {
         UpdateAndNotifi_Username(UsernameStatus.Checking);
         UpdateAndNotifi_Password(PasswordStatus.Checking);
-
-        yield return StartCoroutine(LoginCheck_Username());
-
-        if (_usernameStartus == UsernameStatus.Exist) {
-            yield return StartCoroutine(LoginCheck_Password());
-        }
-
+        
+        yield return StartCoroutine(LoginCheck_());
+        
         Login_WhenAllCheckDone();
     }
-    #region Username Check
-    private IEnumerator LoginCheck_Username() {
+    private IEnumerator LoginCheck_() {
         WWWForm form = new WWWForm();
         form.AddField("username", TF_Username.value);
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/UserCheckExist.php", form)) {
+        form.AddField("password", TF_Password.value);
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/PlayerLogin.php", form)) {
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success) {
-                Debug.LogError("Error checking username: " + www.error);
-                UpdateAndNotifi_Username(UsernameStatus.OtherError, www.error);
+                Debug.LogError("LoginError " + www.error);
+                UpdateAndNotifi_Password(PasswordStatus.OtherError, " : can't connect to server");
             }
             else {
-                string[] responseText = www.downloadHandler.text.Split("\t");
-                if (responseText[0] == "1") {
+                string responseText = www.downloadHandler.text;
+                if (responseText[0] == '0') {
                     UpdateAndNotifi_Username(UsernameStatus.Exist);
-                }
-                else if (responseText[0] == "0") {
-                    UpdateAndNotifi_Username(UsernameStatus.NotExist);
+                    UpdateAndNotifi_Password(PasswordStatus.Correct);
+                    UserID = responseText.Split('\t')[1];
                 }
                 else {
-                    _usernameStartus = UsernameStatus.OtherError;
-                    UpdateAndNotifi_Username(UsernameStatus.OtherError, responseText[1]);
+                    if (responseText[0] == '5') {
+                        UpdateAndNotifi_Username(UsernameStatus.NotExist);
+                    }
+                    else if (responseText[0] == '5') {
+                        UpdateAndNotifi_Password(PasswordStatus.Incorrect);
+                    }
+                    else {
+                        UpdateAndNotifi_Password(PasswordStatus.OtherError, responseText);
+                    }
                 }
             }
         }
     }
+
     private void UpdateAndNotifi_Username(UsernameStatus status, string otherError = null) {
         _usernameStartus = status;
         switch (status) {
@@ -120,30 +124,6 @@ public class UI_LoginAction : MonoBehaviour {
                 LB_ErrorNotifi.text = "";
                 break;
 
-        }
-    }
-    #endregion
-
-    #region Password Check
-    private IEnumerator LoginCheck_Password() {
-        WWWForm form = new WWWForm();
-        form.AddField("username", TF_Username.value);
-        form.AddField("password", TF_Password.value);
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/PlayerLogin.php", form)) {
-            yield return www.SendWebRequest();
-            if (www.result != UnityWebRequest.Result.Success) {
-                Debug.LogError("Error checking password: " + www.error);
-                UpdateAndNotifi_Password(PasswordStatus.OtherError, www.error);
-            }
-            else {
-                string responseText = www.downloadHandler.text.Trim();
-                if (responseText == "0") {
-                    UpdateAndNotifi_Password(PasswordStatus.Correct);
-                }
-                else {
-                    UpdateAndNotifi_Password(PasswordStatus.Incorrect);
-                }
-            }
         }
     }
     private void UpdateAndNotifi_Password(PasswordStatus status, string otherError = null) {
@@ -160,7 +140,6 @@ public class UI_LoginAction : MonoBehaviour {
                 break;
         }
     }
-    #endregion
 
     private void Login_WhenAllCheckDone() {
         Btn_Login.SetEnabled( true );
@@ -169,6 +148,7 @@ public class UI_LoginAction : MonoBehaviour {
             _passwordStatus == PasswordStatus.Correct) {
             // Successful login
             Debug.Log("Login successful!");
+            Static_Info.SetUserID(UserID);
             Loader.LoadScene(SCENES.CustomerScene);
         }
     }
