@@ -21,7 +21,7 @@ public class PostSlot_manager : MonoBehaviour
     public void DestroyAllPost() {
         foreach (Transform post in postSlot_Holder) {
             if (post == postSlot_Template) continue;
-            Destroy(post);
+            Destroy(post.gameObject);
         }
     }
 }
