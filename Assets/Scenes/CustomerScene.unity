@@ -2228,7 +2228,6 @@ GameObject:
   - component: {fileID: 725502146}
   - component: {fileID: 725502148}
   - component: {fileID: 725502147}
-  - component: {fileID: 725502149}
   m_Layer: 0
   m_Name: Scroll
   m_TagString: Untagged
@@ -2295,21 +2294,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 725502145}
   m_CullTransparentMesh: 1
---- !u!114 &725502149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 725502145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5568b169ba3a6b141ae733bf8c79006b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_scrollRect: {fileID: 0}
-  ScollValue: 0
-  MaxScollValue: 0
 --- !u!1 &774483418
 GameObject:
   m_ObjectHideFlags: 0
@@ -2343,7 +2327,7 @@ RectTransform:
   m_Father: {fileID: 1926515275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2588,6 +2572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   postSlot_Template: {fileID: 1655587525}
   postSlot_Holder: {fileID: 2040332861}
+  condition: {fileID: 0}
 --- !u!1001 &850147039
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2638,7 +2623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3446976837202587155, guid: 7d0e6ae6ec3943d47a1e5bd999487aca, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3446976837202587155, guid: 7d0e6ae6ec3943d47a1e5bd999487aca, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2646,11 +2631,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3446976837202587155, guid: 7d0e6ae6ec3943d47a1e5bd999487aca, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3446976837202587155, guid: 7d0e6ae6ec3943d47a1e5bd999487aca, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 724
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3446976837202587155, guid: 7d0e6ae6ec3943d47a1e5bd999487aca, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2686,7 +2671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3446976837202587155, guid: 7d0e6ae6ec3943d47a1e5bd999487aca, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 362
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3446976837202587155, guid: 7d0e6ae6ec3943d47a1e5bd999487aca, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3009,6 +2994,7 @@ GameObject:
   - component: {fileID: 1060911461}
   - component: {fileID: 1060911463}
   - component: {fileID: 1060911462}
+  - component: {fileID: 1060911464}
   m_Layer: 0
   m_Name: Scroll
   m_TagString: Untagged
@@ -3075,6 +3061,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060911460}
   m_CullTransparentMesh: 1
+--- !u!114 &1060911464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060911460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5568b169ba3a6b141ae733bf8c79006b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScollValue: 0
+  MaxScollValue: 0
 --- !u!114 &1061149754 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4851445233724768083, guid: 7d0e6ae6ec3943d47a1e5bd999487aca, type: 3}
@@ -3108,7 +3108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1121134633
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3143,6 +3143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   postSlot_Template: {fileID: 487022452}
   postSlot_Holder: {fileID: 1268368561}
+  condition: {fileID: 0}
 --- !u!114 &1121134636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3155,6 +3156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ba80cb95a86b448a9b5c8dc9965ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  condition: {fileID: 0}
 --- !u!1001 &1129989767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4079,7 +4081,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -80, y: 400}
+  m_SizeDelta: {x: -80, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1268368562
 MonoBehaviour:
@@ -6075,6 +6077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ba80cb95a86b448a9b5c8dc9965ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  condition: {fileID: 1060911464}
 --- !u!114 &1974306306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6089,6 +6092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   postSlot_Template: {fileID: 487022452}
   postSlot_Holder: {fileID: 1268368561}
+  condition: {fileID: 1060911464}
 --- !u!1 &2010901469
 GameObject:
   m_ObjectHideFlags: 0
@@ -6321,6 +6325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   postSlot_Template: {fileID: 1655587525}
   postSlot_Holder: {fileID: 2040332861}
+  condition: {fileID: 0}
 --- !u!114 &2106758439 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2771024749107870702, guid: 7d0e6ae6ec3943d47a1e5bd999487aca, type: 3}

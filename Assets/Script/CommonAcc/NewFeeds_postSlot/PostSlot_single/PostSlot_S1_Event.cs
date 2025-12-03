@@ -9,7 +9,6 @@ public class PostSlot_S1_Event : PostSlot_S0_Base
         if (newEvent == null) {
             Debug.Log("None Info"); return;
         }
-        Debug.Log("event title" + newEvent.title);
         Title.text = newEvent.title;
         Content.text = newEvent.description;
         post_time.text = newEvent.post_time;

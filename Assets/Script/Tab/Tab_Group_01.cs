@@ -9,7 +9,9 @@ public class Tab_Group_01 : MonoBehaviour, I_Tab_Group_ctrl {
     private bool _isFirstRunDone = false;
 
     private void OnEnable() {
-        if(!_isFirstRunDone) StartCoroutine(FirstRun());
+        if (!_isFirstRunDone) 
+            //StartCoroutine(FirstRun());
+            Initiate();
     }
 
     private IEnumerator FirstRun() {
@@ -24,6 +26,19 @@ public class Tab_Group_01 : MonoBehaviour, I_Tab_Group_ctrl {
             Debug.Log($"{this.name} has no child");
         }
         yield return null;
+        _isFirstRunDone = true;
+    }
+
+    private void Initiate() {
+        DeselectAllChild();
+        if (GroupTab.childCount > 0) {
+            _SelectedTab = GroupTab.GetComponentInChildren<I_Tab_Element_ctrl>();
+            _SelectedTab.Selected();
+            Debug.Log($"have {_SelectedTab} child");
+        }
+        else {
+            Debug.Log($"{this.name} has no child");
+        }
         _isFirstRunDone = true;
     }
 

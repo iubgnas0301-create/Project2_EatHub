@@ -6,7 +6,7 @@ public class PostSlot_Load_0_Base : MonoBehaviour
     protected PostSlot_manager postSlot_Manager;
     protected Coroutine GetInfo_Corotine;
 
-    private void Start() {
+    protected virtual void Start() {
         postSlot_Manager = GetComponent<PostSlot_manager>();
         GetInfo();
     }
