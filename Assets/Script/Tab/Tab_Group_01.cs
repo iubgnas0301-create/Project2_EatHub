@@ -6,10 +6,10 @@ public class Tab_Group_01 : MonoBehaviour, I_Tab_Group_ctrl {
     [SerializeField] private Transform GroupTab;
 
     private I_Tab_Element_ctrl _SelectedTab;
+    private bool _isFirstRunDone = false;
 
-    private void Start() {
-
-        StartCoroutine(FirstRun());
+    private void OnEnable() {
+        if(!_isFirstRunDone) StartCoroutine(FirstRun());
     }
 
     private IEnumerator FirstRun() {
@@ -23,6 +23,8 @@ public class Tab_Group_01 : MonoBehaviour, I_Tab_Group_ctrl {
         else {
             Debug.Log($"{this.name} has no child");
         }
+        yield return null;
+        _isFirstRunDone = true;
     }
 
     public void clickNotifiFromTab(I_Tab_Element_ctrl tab) {

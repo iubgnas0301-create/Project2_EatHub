@@ -18,11 +18,10 @@ public class WorkWithServer : MonoBehaviour
         yield return null;
 
         // check UserID
-        string staticUserID = Static_Info.UserID;
+        string staticUserID = Static_Info.GetUserID();
         if (string.IsNullOrEmpty(staticUserID)) {
             Debug.Log("UserID is null or empty.");
-            staticUserID = "3";
-            //yield break;
+            yield break;
         }
 
         yield return null;
@@ -54,11 +53,10 @@ public class WorkWithServer : MonoBehaviour
 
         // check UserID
         Debug.Log("GetUserAchievement");
-        string staticUserID = Static_Info.UserID;
+        string staticUserID = Static_Info.GetUserID();
         if (string.IsNullOrEmpty(staticUserID)) {
             Debug.Log("UserID is null or empty. Achievement");
-            staticUserID = "3";
-            //yield break;
+            yield break;
         }
 
         yield return null;
@@ -96,8 +94,43 @@ public class WorkWithServer : MonoBehaviour
                     yield return null;
 
                 }
+
             }
         }
     }
+    /// <summary>
+    /// 5 event per page
+    /// </summary>
+    /// <param name="page"></param>
+    /// <param name="callback"></param>
+    /// <returns></returns>
+    public IEnumerator GetEvent(int pageIndex, Action<E_PostSlot_event> callback) { 
+        yield return null;
 
+        WWWForm form = new WWWForm();
+        form.AddField("page", pageIndex);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/GetEvents.php", form)) {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success) {
+                Debug.LogError("Error: " + www.error);
+            }
+            else {
+                string responseText = www.downloadHandler.text;
+                if (responseText[0] != '0') { // server indicates error
+                    Debug.LogError("Error# " + responseText);
+                    yield break;
+                }
+                Debug.Log("Achievement : " + responseText);
+                responseText = responseText.Substring(1);
+
+                E_PostSlot_event[] E_event_list = JsonArrayUtility.FromJsonArray<E_PostSlot_event>(responseText);
+                foreach (E_PostSlot_event E_event in E_event_list) {
+                    callback(E_event);
+                    yield return null;
+                }
+
+            }
+        }
+    }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PostSlot_Load_Achievement : MonoBehaviour
@@ -11,14 +12,16 @@ public class PostSlot_Load_Achievement : MonoBehaviour
     private void Start() {
         postSlot_Manager = GetComponent<PostSlot_manager>();
         GetAchievement_callback = postSlot_Manager.SpawnPost;
+        GetInfo();
     }
 
-    private void OnEnable() {
+    private void GetInfo() {
         if (GetAchievement_Corotine != null) StopCoroutine(GetAchievement_Corotine);
         GetAchievement_Corotine = StartCoroutine(WorkWithServer.Instance.GetUserAchievement(GetAchievement_callback));
     }
-    private void OnDisable() {
-        postSlot_Manager.DestroyAllPost();
-    }
 
+    public void Refresh() {
+        postSlot_Manager.DestroyAllPost();
+        GetInfo();
+    }
 }

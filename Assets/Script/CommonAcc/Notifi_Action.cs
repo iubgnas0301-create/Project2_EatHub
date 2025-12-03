@@ -6,18 +6,17 @@ using UnityEngine.UI;
 public class Notifi_Action : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _text;
-    private Image _image;
+    [SerializeField] private Image _imageBG;
 
     private float _maxAlpha = 0.98f;
 
     private void Start() {
-        _image = GetComponent<Image>();
-        gameObject.SetActive(false);
+        SetActiveTo(false);
     }
     public void Notifi_Act(string message = "Funtion Under Development")
     {
         StopAllCoroutines();
-        gameObject.SetActive(true);
+        SetActiveTo(true);
         _text.text = message;
         StartCoroutine(NotifiCoroutine(message));
     }
@@ -35,11 +34,16 @@ public class Notifi_Action : MonoBehaviour
             yield return null;
         }
 
-        gameObject.SetActive(false);
+        SetActiveTo(false);
     }
 
     private void SetAlpha(float value) {
-        _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, value);
+        _imageBG.color = new Color(_imageBG.color.r, _imageBG.color.g, _imageBG.color.b, value);
         _text.color = new Color(_text.color.r, _text.color.g, _text.color.b, value);
+    }
+
+    private void SetActiveTo(bool active) {
+        _imageBG.gameObject.SetActive(active);
+        _text.gameObject.SetActive(active);
     }
 }

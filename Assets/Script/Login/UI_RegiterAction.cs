@@ -130,24 +130,53 @@ public class UI_RegiterAction : MonoBehaviour
         // request to server
         WWWForm form = new WWWForm();
         form.AddField("username", username);
-        WWW CheckUser = new WWW("http://localhost/EatHubConnect/UserCheckExist.php", form);
-        yield return CheckUser;
 
-        string[] responseText = CheckUser.text.Split("\t");
-        if (responseText[0] == "0") {
-            // Unique Username
-            UpdateAndNotifi_Username(UsernameStatus.Available);
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/UserCheckExist.php", form)) {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success) {
+                Debug.LogError("LoginError " + www.error);
+
+                LB_User_errorNotifi.text = "Error" + www.error;
+                LB_User_errorNotifi.RemoveFromClassList(CLASS_ERRORNOTIFI_FIX);
+            }
+            else {
+                string[] responseText = www.downloadHandler.text.Split("\t");
+                if (responseText[0] == "0") {
+                    // Unique Username
+                    UpdateAndNotifi_Username(UsernameStatus.Available);
+                }
+                else if (responseText[0] == "1") {
+                    // Username is exist
+                    UpdateAndNotifi_Username(UsernameStatus.Taken);
+                }
+                else {
+                    // another error
+                    LB_User_errorNotifi.text = "Error" + www.downloadHandler.text;
+                    Debug.Log("Error: " + www.downloadHandler.text);
+                    LB_User_errorNotifi.RemoveFromClassList(CLASS_ERRORNOTIFI_FIX);
+                }
+            }
         }
-        else if (responseText[0] == "1") {
-            // Username is exist
-            UpdateAndNotifi_Username(UsernameStatus.Taken);
-        }
-        else {
-            // another error
-            LB_User_errorNotifi.text = "Error" + CheckUser.text;
-            Debug.Log("Error: " + CheckUser.text);
-            LB_User_errorNotifi.RemoveFromClassList(CLASS_ERRORNOTIFI_FIX);
-        }
+
+
+        //WWW CheckUser = new WWW("http://localhost/EatHubConnect/UserCheckExist.php", form);
+        //yield return CheckUser;
+
+        //string[] responseText = CheckUser.text.Split("\t");
+        //if (responseText[0] == "0") {
+        //    // Unique Username
+        //    UpdateAndNotifi_Username(UsernameStatus.Available);
+        //}
+        //else if (responseText[0] == "1") {
+        //    // Username is exist
+        //    UpdateAndNotifi_Username(UsernameStatus.Taken);
+        //}
+        //else {
+        //    // another error
+        //    LB_User_errorNotifi.text = "Error" + CheckUser.text;
+        //    Debug.Log("Error: " + CheckUser.text);
+        //    LB_User_errorNotifi.RemoveFromClassList(CLASS_ERRORNOTIFI_FIX);
+        //}
 
         RegisterBtn_InputCondition();
 

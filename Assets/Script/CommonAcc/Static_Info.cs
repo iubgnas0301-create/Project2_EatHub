@@ -2,11 +2,13 @@ using UnityEngine;
 
 public static class Static_Info
 {
-    public static string UserID { get; private set; }
+    private static string UserID;
     public static E_UserInfo UserInfo { get; private set; }
 
-    public static void SetUserID(string userID)
-    {
+    public static string GetUserID() {
+        return string.IsNullOrEmpty(UserID) ? "3" : UserID;
+    }
+    public static void SetUserID(string userID) {
         UserID = userID;
     }
 
@@ -14,6 +16,4 @@ public static class Static_Info
     {
         UserInfo = userInfo;
     }
-
-
 }
