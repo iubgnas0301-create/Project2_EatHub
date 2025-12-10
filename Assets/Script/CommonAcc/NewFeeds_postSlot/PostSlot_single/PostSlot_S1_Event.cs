@@ -12,5 +12,7 @@ public class PostSlot_S1_Event : PostSlot_S0_Base
         Title.text = newEvent.title;
         Content.text = newEvent.description;
         post_time.text = newEvent.post_time;
+        _image.sprite = newEvent._image;
+        _image.preserveAspect = true;
     }
 }

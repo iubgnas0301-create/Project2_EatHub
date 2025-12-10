@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class WorkWithServer : MonoBehaviour
 {
@@ -121,15 +122,41 @@ public class WorkWithServer : MonoBehaviour
                     Debug.LogError("Error# " + responseText);
                     yield break;
                 }
-                Debug.Log("Achievement : " + responseText);
+                Debug.Log("Event : " + responseText);
                 responseText = responseText.Substring(1);
 
                 E_PostSlot_event[] E_event_list = JsonArrayUtility.FromJsonArray<E_PostSlot_event>(responseText);
                 foreach (E_PostSlot_event E_event in E_event_list) {
+                    if (!string.IsNullOrEmpty(E_event.image_path)) {
+                        // Start a coroutine to get the image
+                        yield return StartCoroutine(GetImage("event", E_event.image_path, E_event.SetImage));
+                    } else {
+                        E_event.SetImage(null);
+                    }
                     callback(E_event);
                     yield return null;
                 }
 
+            }
+        }
+    }
+
+    public IEnumerator GetImage(string Folder, string Name, Action<Sprite> callback) {
+        WWWForm form = new WWWForm();
+        form.AddField("FolderName", Folder);
+        form.AddField("ImageName", Name);
+        using(UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/GetImage.php", form)) {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success) {
+                Debug.LogError("Error: " + www.error);
+            }
+            else {
+                byte[] imageBytes = www.downloadHandler.data;
+                Texture2D texture = new Texture2D(2, 2);
+                texture.LoadImage(imageBytes);
+                // Use the texture as needed
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                callback(sprite);
             }
         }
     }
