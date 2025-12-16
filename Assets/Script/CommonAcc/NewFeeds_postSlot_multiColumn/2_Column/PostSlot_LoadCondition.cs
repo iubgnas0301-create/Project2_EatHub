@@ -13,11 +13,10 @@ public class PostSlot_LoadCondition : MonoBehaviour
     private float maxScrollValue = 0;
 
     public void UpadateMaxScollValue() {
+        transform.parent.GetComponent<ContentResize>().SetAndGetHeight();
+
         float parentHeight = transform.parent.parent.GetComponent<RectTransform>().rect.height;
         maxScrollValue = GetComponent<RectTransform>().rect.height - parentHeight;
-
-        // a little ajustment ro get true size of parent height
-        StartCoroutine(WaitAndCheckBottom());
     }
 
     public void IsMaxScollValueReach(float scollvalue) {
@@ -27,11 +26,6 @@ public class PostSlot_LoadCondition : MonoBehaviour
         else {
             ChangeState(State.middle);
         }
-    }
-
-    private IEnumerator WaitAndCheckBottom() {
-        yield return new WaitForSeconds(2);
-        transform.position = transform.position;
     }
 
     private void ChangeState(State newstate) {
