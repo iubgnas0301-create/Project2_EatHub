@@ -6,7 +6,7 @@ public class PostSlot_S1_Store : PostSlot_S0_Base
     [SerializeField] private TextMeshProUGUI rate;
     [SerializeField] private TextMeshProUGUI numberOfFeedback;
     [SerializeField] private TextMeshProUGUI location;
-    public override void SetInfo(E_PostSlot_Base newInfo) {
+    public override void SetInfo(E_PostSlot_0_Base newInfo) {
         E_PostSlot_store newEvent = newInfo as E_PostSlot_store;
         if (newEvent == null) {
             Debug.Log("None Info"); return;

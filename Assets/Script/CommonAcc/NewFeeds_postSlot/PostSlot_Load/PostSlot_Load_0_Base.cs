@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class PostSlot_Load_0_Base : MonoBehaviour
 {
-    protected PostSlot_manager postSlot_Manager;
+    protected PostSlot_Managemnet postSlot_Manager;
     protected Coroutine GetInfo_Corotine;
 
     protected virtual void Start() {
-        postSlot_Manager = GetComponent<PostSlot_manager>();
+        postSlot_Manager = GetComponent<PostSlot_Managemnet>();
         GetInfo();
     }
 

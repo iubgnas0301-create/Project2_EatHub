@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class E_PostSlot_store : E_PostSlot_Base
+public class E_PostSlot_store : E_PostSlot_0_Base
 {
     public string id_brand;
     public string id_store;
@@ -11,9 +11,9 @@ public class E_PostSlot_store : E_PostSlot_Base
     public string rate;
     public string image_path;
 
-    public Sprite _image;
+    public Sprite Image;
     public void SetImage(Sprite img) {
-        _image = img;
+        Image = img;
     }
 
     public new string title => name;

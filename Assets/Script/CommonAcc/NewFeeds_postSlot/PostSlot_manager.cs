@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PostSlot_manager : MonoBehaviour
+public class PostSlot_Managemnet : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform postSlot_Template;
@@ -12,7 +12,7 @@ public class PostSlot_manager : MonoBehaviour
         postSlot_Template.gameObject.SetActive(false);
     }
 
-    public void SpawnPost(E_PostSlot_Base postSlot) {
+    public void SpawnPost(E_PostSlot_0_Base postSlot) {
         Transform instance = Instantiate(postSlot_Template, postSlot_Holder);
         instance.gameObject.SetActive(true);
         instance.gameObject.name = postSlot.title; //Debug.Log("title" + postSlot.title);

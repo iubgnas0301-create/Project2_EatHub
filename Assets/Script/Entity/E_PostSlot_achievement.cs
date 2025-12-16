@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class E_PostSlot_achievement : E_PostSlot_Base
+public class E_PostSlot_achievement : E_PostSlot_0_Base
 {
     public int id;
     public string a_name;

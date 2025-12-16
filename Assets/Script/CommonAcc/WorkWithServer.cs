@@ -171,13 +171,53 @@ public class WorkWithServer : MonoBehaviour
                     else {
                         E_store.SetImage(null);
                     }
-                    Debug.Log("Store Name: " + E_store.name);
+                    //Debug.Log("Store Name: " + E_store.name);
                     callback(E_store);
                     yield return null;
                 }
 
             }
         }
+    }
+
+    public void GetFoodInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_food> callback, Action EndCallback) {
+        StartCoroutine(GetFood(pageIndex, itemPerPage, callback, EndCallback));
+    }
+    public IEnumerator GetFood(int pageIndex, int itemPerPage, Action<E_PostSlot_food> callback, Action EndCallback) {
+        yield return null;
+
+        WWWForm form = new WWWForm();
+        form.AddField("page", pageIndex);
+        form.AddField("itemPerPage", itemPerPage);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/GetFoods.php", form)) {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success) {
+                Debug.LogError("Error: " + www.error);
+            }
+            else {
+                string responseText = www.downloadHandler.text;
+                if (responseText[0] != '0') { // server indicates error
+                    Debug.LogError("Error# " + responseText);
+                    yield break;
+                }
+                Debug.Log("Food : " + responseText);
+                responseText = responseText.Substring(1);
+                E_PostSlot_food[] E_food_list = JsonArrayUtility.FromJsonArray<E_PostSlot_food>(responseText);
+                foreach (E_PostSlot_food E_food in E_food_list) {
+                    if (!string.IsNullOrEmpty(E_food.image_path)) {
+                        // Start a coroutine to get the image
+                        //yield return StartCoroutine(GetImage("food", E_food.image_path, E_food.SetImage));
+                    }
+                    else {
+                        E_food.SetImage(null);
+                    }
+                    callback?.Invoke(E_food);
+                    yield return null;
+                }
+            }
+        }
+        EndCallback?.Invoke();
     }
 
     public IEnumerator GetImage(string Folder, string Name, Action<Sprite> callback) {

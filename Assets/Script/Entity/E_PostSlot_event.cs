@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 [Serializable]
-public class E_PostSlot_event : E_PostSlot_Base
+public class E_PostSlot_event : E_PostSlot_0_Base
 {
     public int id_brand;
     public int id_post;

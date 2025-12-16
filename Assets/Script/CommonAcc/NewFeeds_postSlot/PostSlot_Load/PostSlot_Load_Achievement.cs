@@ -6,11 +6,11 @@ public class PostSlot_Load_Achievement : MonoBehaviour
 {
     public Action<E_PostSlot_achievement> GetAchievement_callback;
 
-    private PostSlot_manager postSlot_Manager;
+    private PostSlot_Managemnet postSlot_Manager;
     private Coroutine GetAchievement_Corotine;
 
     private void Start() {
-        postSlot_Manager = GetComponent<PostSlot_manager>();
+        postSlot_Manager = GetComponent<PostSlot_Managemnet>();
         GetAchievement_callback = postSlot_Manager.SpawnPost;
         GetInfo();
     }
