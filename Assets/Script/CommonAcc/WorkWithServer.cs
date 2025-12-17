@@ -181,7 +181,7 @@ public class WorkWithServer : MonoBehaviour
     }
 
     public void GetFoodInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_food> callback, Action EndCallback) {
-        StartCoroutine(GetFood(pageIndex, itemPerPage, callback, EndCallback));
+        StartCoroutine(GetTable("food",pageIndex, itemPerPage, callback, EndCallback));
     }
     public IEnumerator GetFood(int pageIndex, int itemPerPage, Action<E_PostSlot_food> callback, Action EndCallback) {
         yield return null;
@@ -207,7 +207,7 @@ public class WorkWithServer : MonoBehaviour
                 foreach (E_PostSlot_food E_food in E_food_list) {
                     if (!string.IsNullOrEmpty(E_food.image_path)) {
                         // Start a coroutine to get the image
-                        //yield return StartCoroutine(GetImage("food", E_food.image_path, E_food.SetImage));
+                        yield return StartCoroutine(GetImage("food", E_food.image_path, E_food.SetImage));
                     }
                     else {
                         E_food.SetImage(null);
@@ -220,6 +220,42 @@ public class WorkWithServer : MonoBehaviour
         EndCallback?.Invoke();
     }
 
+    public IEnumerator GetTable<T>(string tableName, int pageIndex, int itemPerPage, Action<T> callback, Action EndCallback) {
+        yield return null;
+
+        WWWForm form = new WWWForm();
+        form.AddField("page", pageIndex);
+        form.AddField("itemPerPage", itemPerPage);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/GetFoods.php", form)) {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success) {
+                Debug.LogError("Error: " + www.error);
+            }
+            else {
+                string responseText = www.downloadHandler.text;
+                if (responseText[0] != '0') { // server indicates error
+                    Debug.LogError("Error# " + responseText);
+                    yield break;
+                }
+                Debug.Log("Food : " + responseText);
+                responseText = responseText.Substring(1);
+                T[] E_item_list = JsonArrayUtility.FromJsonArray<T>(responseText);
+                foreach (T E_item in E_item_list) {
+                    if (E_item is E_PostSlot_0_Base) {
+                        E_PostSlot_0_Base itemBase = E_item as E_PostSlot_0_Base;
+                        if (!string.IsNullOrEmpty(itemBase.image_path)) {
+                            // Start a coroutine to get the image
+                            yield return StartCoroutine(GetImage(tableName, itemBase.image_path, itemBase.SetImage));
+                        }
+                    }
+                    callback?.Invoke(E_item);
+                    yield return null;
+                }
+            }
+        }
+        EndCallback?.Invoke();
+    }
     public IEnumerator GetImage(string Folder, string Name, Action<Sprite> callback) {
         WWWForm form = new WWWForm();
         form.AddField("FolderName", Folder);

@@ -12,4 +12,6 @@ public class E_PostSlot_achievement : E_PostSlot_0_Base
 
     public new string title => a_name;
     public new string description => $"{a_describe} \n <color=#FFFFFF88>{a_condition}</color>";
+
+    public override void SetImage(Sprite i) {}
 }
