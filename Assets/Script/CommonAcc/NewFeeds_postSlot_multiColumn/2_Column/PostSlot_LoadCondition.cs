@@ -13,7 +13,7 @@ public class PostSlot_LoadCondition : MonoBehaviour
     private float maxScrollValue = 0;
 
     public void UpadateMaxScollValue() {
-        transform.parent.GetComponent<ContentResize>().SetAndGetHeight();
+        transform.parent.GetComponent<ContentResize>().ResetHeight();
 
         float parentHeight = transform.parent.parent.GetComponent<RectTransform>().rect.height;
         maxScrollValue = GetComponent<RectTransform>().rect.height - parentHeight;

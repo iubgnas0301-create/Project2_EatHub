@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,18 @@ public class PostSlot_Item_1_food : PostSlot_Item_0_Base
         rate.text = info.rate.ToString("0.0");
         feedbackCount.text = $"(000 feedbacks)";
         price.text = info.price.ToString("##,#") + "đ";
+
+        // Load Image
         _image.sprite = info.Image;
+    }
+
+    public override void Call2Server(int curentPage, int itemPerPage,
+        Action<E_PostSlot_0_Base> callbackCreateItem,
+        Action callbackEnd)
+    {
+        Debug.Log($"{gameObject.name} Call Food Info from Server");
+        WorkWithServer.Instance.GetFoodInfo(
+            curentPage, itemPerPage,
+            callbackCreateItem, callbackEnd);
     }
 }

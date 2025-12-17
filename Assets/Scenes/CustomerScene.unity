@@ -680,7 +680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pageIndex: 0
-  itemPerPage: 5
+  itemPerPage: 9
   ScrollValue: 0
 --- !u!1001 &98671491
 PrefabInstance:
@@ -3536,7 +3536,6 @@ GameObject:
   - component: {fileID: 653946438}
   - component: {fileID: 653946436}
   - component: {fileID: 653946435}
-  - component: {fileID: 653946440}
   - component: {fileID: 653946439}
   m_Layer: 0
   m_Name: Column2
@@ -3622,19 +3621,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 653946433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13ebd84e7e35102489d4361ccf45427d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &653946440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 653946433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a11f1cc0ed8924dbd0b3b4bbee7554, type: 3}
+  m_Script: {fileID: 11500000, guid: 10f9d25345bfefc4a92771787d1e53c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tempplate: {fileID: 0}
@@ -7568,7 +7555,6 @@ GameObject:
   - component: {fileID: 1459661172}
   - component: {fileID: 1459661170}
   - component: {fileID: 1459661169}
-  - component: {fileID: 1459661174}
   - component: {fileID: 1459661173}
   m_Layer: 0
   m_Name: Column1
@@ -7654,19 +7640,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1459661167}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13ebd84e7e35102489d4361ccf45427d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1459661174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1459661167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a11f1cc0ed8924dbd0b3b4bbee7554, type: 3}
+  m_Script: {fileID: 11500000, guid: 10f9d25345bfefc4a92771787d1e53c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tempplate: {fileID: 0}
