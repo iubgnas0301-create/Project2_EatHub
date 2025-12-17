@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -13,12 +12,5 @@ public class PostSlot_Item_0_Base : MonoBehaviour
     {
         Title.text = newInfo.title;
         Content.text = newInfo.description;
-    }
-
-    public virtual void Call2Server(
-        int curentPage, int itemPerPage, 
-        Action<E_PostSlot_0_Base> callbackCreateItem, 
-        Action callbackEnd) {
-        // server call : WorkWithServer.Instance
     }
 }

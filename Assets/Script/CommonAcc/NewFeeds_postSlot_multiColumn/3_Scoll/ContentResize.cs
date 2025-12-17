@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ContentResize : MonoBehaviour
 {
-    public void ResetHeight()
+    public float SetAndGetHeight()
     {
         float maxChildrenHeight = 0f;
         foreach (Transform item in transform) {
@@ -13,5 +13,6 @@ public class ContentResize : MonoBehaviour
         Vector2 sizeDelta = rectTransform.sizeDelta;
         sizeDelta.y = maxChildrenHeight;
         rectTransform.sizeDelta = sizeDelta;
+        return maxChildrenHeight;
     }
 }

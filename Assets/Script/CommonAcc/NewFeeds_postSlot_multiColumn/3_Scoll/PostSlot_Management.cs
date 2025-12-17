@@ -30,11 +30,11 @@ public class PostSlot_Management : MonoBehaviour
     private IEnumerator FistUpdate() {
         yield return new WaitForEndOfFrame();
         foreach (Transform column in Columns) {
-            PostSlot_LoadAction_n_Condition con = column.GetComponent<PostSlot_LoadAction_n_Condition>();
-            con.OnReachBottom += BottomReach2;
+            PostSlot_LoadCondition con = column.GetComponent<PostSlot_LoadCondition>();
+            con.OnReachBottom += BottomReach;
             Debug.Log($"Subscribe BottomReach to {column}");
         }
-        Reload2();
+        Reload();
     }
 
     private void OnScrollValueChanged(Vector2 pos) {
@@ -48,7 +48,7 @@ public class PostSlot_Management : MonoBehaviour
 
         if (state == State.middle) {
             foreach (Transform item in Columns) {
-                item.GetComponent<PostSlot_LoadAction_n_Condition>().IsMaxScollValueReach(ScrollValue);
+                item.GetComponent<PostSlot_LoadCondition>().IsMaxScollValueReach(ScrollValue);
             }
         }
 
@@ -57,24 +57,26 @@ public class PostSlot_Management : MonoBehaviour
             if (s == state) return;
             state = s;
             if (state == State.top) {
-                Reload2();
+                Reload();
                 Debug.Log("reach Top"); 
             }
         }
     }
 
-
-    private void Reload2() {
+    private void Reload() {
         pageIndex = 0;
         foreach (Transform column in Columns) {
-            PostSlot_LoadAction_n_Condition COL1 = column.GetComponent<PostSlot_LoadAction_n_Condition>();
+            PostSlot_LoadAction_0_Base COL1 = column.GetComponent<PostSlot_LoadAction_0_Base>();
+            PostSlot_LoadCondition COL2 = column.GetComponent<PostSlot_LoadCondition>();
             COL1.ClearAllItem();
-            COL1.PrepareForLoad(pageIndex, itemPerPage);
+            WorkWithServer.Instance.GetFoodInfo(pageIndex, itemPerPage, COL1.CreateItem, COL2.UpadateMaxScollValue );
             pageIndex++;
         }
     }
 
-    private void BottomReach2(PostSlot_LoadAction_n_Condition whoReach) {
-        whoReach.PrepareForLoad(++pageIndex, itemPerPage);
+    private void BottomReach(GameObject whoReach) {
+        WorkWithServer.Instance.GetFoodInfo(++pageIndex, itemPerPage, 
+            whoReach.GetComponent<PostSlot_LoadAction_0_Base>().CreateItem,
+            whoReach.GetComponent<PostSlot_LoadCondition>().UpadateMaxScollValue);
     }
 }
