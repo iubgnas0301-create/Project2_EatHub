@@ -158,7 +158,7 @@ public class WorkWithServer : MonoBehaviour
         form.AddField("page", pageIndex);
         form.AddField("itemPerPage", itemPerPage);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/GetTable.php", form)) {
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/PHP_GetTable/GetTable.php", form)) {
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success) {
                 Debug.LogError("Error: " + www.error);
@@ -173,14 +173,6 @@ public class WorkWithServer : MonoBehaviour
                 responseText = responseText.Substring(1);
                 T[] E_item_list = JsonArrayUtility.FromJsonArray<T>(responseText);
                 foreach (T E_item in E_item_list) {
-                    if (E_item is E_PostSlot_0_Base) {
-                        E_PostSlot_0_Base itemBase = E_item as E_PostSlot_0_Base;
-                        if (!string.IsNullOrEmpty(itemBase.image_path)) {
-                            Debug.Log($"Getting image for {tableName} from path: {itemBase.image_path}");
-                            // Start a coroutine to get the image
-                            yield return StartCoroutine(GetImage(tableName, itemBase.image_path, itemBase.SetImage));
-                        }
-                    }
                     callback?.Invoke(E_item);
                     yield return null;
                 }
@@ -188,9 +180,13 @@ public class WorkWithServer : MonoBehaviour
         }
         EndCallback?.Invoke();
     }
-    public IEnumerator GetImage(string Folder, string Name, Action<Sprite> callback) {
+
+    public void DownLoadImage(string imagePath, Action<Sprite> callbackSetImage) {
+        if (string.IsNullOrEmpty(imagePath)) return;
+        StartCoroutine(GetImage(imagePath, callbackSetImage));
+    }
+    public IEnumerator GetImage(string Name, Action<Sprite> callback) {
         WWWForm form = new WWWForm();
-        form.AddField("FolderName", Folder);
         form.AddField("ImageName", Name);
         using(UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/GetImage.php", form)) {
             yield return www.SendWebRequest();

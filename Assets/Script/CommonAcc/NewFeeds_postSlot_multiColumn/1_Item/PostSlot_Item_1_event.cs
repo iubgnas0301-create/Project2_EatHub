@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
@@ -11,20 +10,27 @@ public class PostSlot_Item_1_event : PostSlot_Item_0_Base {
     [SerializeField] private TextMeshProUGUI DatetimepPost;
     [SerializeField] private Image _image;
 
+    private E_PostSlot_event _info;
+
     public override void SetInfo(E_PostSlot_0_Base newInfo) {
-        E_PostSlot_event info = newInfo as E_PostSlot_event;
+        _info = newInfo as E_PostSlot_event;
         // Validate Information
-        if (info is null) { Debug.Log($"Can't read {newInfo} info as event"); return; }
+        if (_info is null) { Debug.Log($"Can't read {newInfo} info as event"); return; }
 
         // Set Information
         Title.text = "brand name";
-        Content.text = $"{info.title}\n<color=#FFFFFF88>{info.description}</color>";
+        Content.text = $"{_info.title}\n<color=#FFFFFF88>{_info.description}</color>";
         rate.text = "0.0";
         feedbackCount.text = $"(000 feedbacks)";
-        DatetimepPost.text = info.post_time;
+        DatetimepPost.text = _info.post_time;
 
         // Load Image
-        _image.sprite = info._image;
+        WorkWithServer.Instance.DownLoadImage(_info.image_path, (Sprite output) => {
+            Debug.Log($"Event Image downloaded from path: {_info.image_path}");
+            _info._image = output;
+            _image.color = Color.white;
+            _image.sprite = output;
+        });
     }
     public override void Call2Server(int curentPage, int itemPerPage, Action<E_PostSlot_0_Base> callbackCreateItem, Action callbackEnd) {
         Debug.Log($"{gameObject.name} Call Event Info from Server");

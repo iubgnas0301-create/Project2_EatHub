@@ -16,9 +16,6 @@ public class E_PostSlot_food : E_PostSlot_0_Base
 
     public new string title => name;
     public new string description => describe;
+
     public Sprite Image;
-    public override void SetImage(Sprite sprite)
-    {
-        Image = sprite;
-    }
 }

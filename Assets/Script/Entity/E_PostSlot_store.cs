@@ -11,9 +11,6 @@ public class E_PostSlot_store : E_PostSlot_0_Base
     public string rate;
 
     public Sprite Image;
-    public override void SetImage(Sprite img) {
-        Image = img;
-    }
 
     public new string title => name;
     public new string description => address;

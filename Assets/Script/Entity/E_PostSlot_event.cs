@@ -13,7 +13,4 @@ public class E_PostSlot_event : E_PostSlot_0_Base
     public Sprite _image;
 
     public new string description => content;
-    public override void SetImage(Sprite img) {
-        _image = img;
-    }
 }
