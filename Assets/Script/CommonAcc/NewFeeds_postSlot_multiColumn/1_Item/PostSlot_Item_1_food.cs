@@ -25,9 +25,8 @@ public class PostSlot_Item_1_food : PostSlot_Item_0_Base {
         _image.sprite = info.Image;
     }
 
-    public override void Call2Server(int curentPage, int itemPerPage,
-        Action<E_PostSlot_0_Base> callbackCreateItem,
-        Action callbackEnd) {
+    public override void Call2Server(int curentPage, int itemPerPage, Action<E_PostSlot_0_Base> callbackCreateItem, Action callbackEnd)
+    {
         Debug.Log($"{gameObject.name} Call Food Info from Server");
         WorkWithServer.Instance.GetFoodInfo(
             curentPage, itemPerPage,
