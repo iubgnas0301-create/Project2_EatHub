@@ -20,9 +20,10 @@ public class PostSlot_Item_1_store : PostSlot_Item_0_Base {
         Content.text = info.description;
         rate.text = info.rate;
         feedbackCount.text = $"(000 feedbacks)";
+        loction.text = info.address;
 
         // Load Image
-        _image.sprite = info.Image? info.Image : null;
+        _image.sprite = info.Image;
     }
 
     public override void Call2Server(int curentPage, int itemPerPage, Action<E_PostSlot_0_Base> callbackCreateItem, Action callbackEnd) {

@@ -105,81 +105,45 @@ public class WorkWithServer : MonoBehaviour
     /// <param name="page"></param>
     /// <param name="callback"></param>
     /// <returns></returns>
-    public IEnumerator GetEvent(int pageIndex, Action<E_PostSlot_event> callback) { 
-        yield return null;
+    //public IEnumerator GetEvent(int pageIndex, Action<E_PostSlot_event> callback) { 
+    //    yield return null;
 
-        WWWForm form = new WWWForm();
-        form.AddField("page", pageIndex);
+    //    WWWForm form = new WWWForm();
+    //    form.AddField("page", pageIndex);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/GetEvents.php", form)) {
-            yield return www.SendWebRequest();
-            if (www.result != UnityWebRequest.Result.Success) {
-                Debug.LogError("Error: " + www.error);
-            }
-            else {
-                string responseText = www.downloadHandler.text;
-                if (responseText[0] != '0') { // server indicates error
-                    Debug.LogError("Error# " + responseText);
-                    yield break;
-                }
-                Debug.Log("Event : " + responseText);
-                responseText = responseText.Substring(1);
+    //    using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/GetEvents.php", form)) {
+    //        yield return www.SendWebRequest();
+    //        if (www.result != UnityWebRequest.Result.Success) {
+    //            Debug.LogError("Error: " + www.error);
+    //        }
+    //        else {
+    //            string responseText = www.downloadHandler.text;
+    //            if (responseText[0] != '0') { // server indicates error
+    //                Debug.LogError("Error# " + responseText);
+    //                yield break;
+    //            }
+    //            Debug.Log("Event : " + responseText);
+    //            responseText = responseText.Substring(1);
 
-                E_PostSlot_event[] E_event_list = JsonArrayUtility.FromJsonArray<E_PostSlot_event>(responseText);
-                foreach (E_PostSlot_event E_event in E_event_list) {
-                    if (!string.IsNullOrEmpty(E_event.image_path)) {
-                        // Start a coroutine to get the image
-                        yield return StartCoroutine(GetImage("event", E_event.image_path, E_event.SetImage));
-                    } else {
-                        E_event.SetImage(null);
-                    }
-                    callback(E_event);
-                    yield return null;
-                }
+    //            E_PostSlot_event[] E_event_list = JsonArrayUtility.FromJsonArray<E_PostSlot_event>(responseText);
+    //            foreach (E_PostSlot_event E_event in E_event_list) {
+    //                if (!string.IsNullOrEmpty(E_event.image_path)) {
+    //                    // Start a coroutine to get the image
+    //                    yield return StartCoroutine(GetImage("event", E_event.image_path, E_event.SetImage));
+    //                } else {
+    //                    E_event.SetImage(null);
+    //                }
+    //                callback(E_event);
+    //                yield return null;
+    //            }
 
-            }
-        }
+    //        }
+    //    }
+    //}
+
+    public void GetEventInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_event> callback, Action EndCallback) {
+        StartCoroutine(GetTable("event", pageIndex, itemPerPage, callback, EndCallback));
     }
-
-    public IEnumerator GetStore(int pageIndex, Action<E_PostSlot_store> callback) {
-        yield return null;
-
-        WWWForm form = new WWWForm();
-        form.AddField("page", pageIndex);
-
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/GetStores.php", form)) {
-            yield return www.SendWebRequest();
-            if (www.result != UnityWebRequest.Result.Success) {
-                Debug.LogError("Error: " + www.error);
-            }
-            else {
-                string responseText = www.downloadHandler.text;
-                if (responseText[0] != '0') { // server indicates error
-                    Debug.LogError("Error# " + responseText);
-                    yield break;
-                }
-                Debug.Log("Store : " + responseText);
-                responseText = responseText.Substring(1);
-
-                E_PostSlot_store[] E_store_list = JsonArrayUtility.FromJsonArray<E_PostSlot_store>(responseText);
-                Debug.Log("Store count: " + E_store_list.Length);
-                foreach (E_PostSlot_store E_store in E_store_list) {
-                    if (!string.IsNullOrEmpty(E_store.image_path)) {
-                        // Start a coroutine to get the image
-                        //yield return StartCoroutine(GetImage("store", E_store.image_path, E_store.SetImage));
-                    }
-                    else {
-                        E_store.SetImage(null);
-                    }
-                    //Debug.Log("Store Name: " + E_store.name);
-                    callback(E_store);
-                    yield return null;
-                }
-
-            }
-        }
-    }
-
     public void GetStoreInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_store> callback, Action EndCallback) {
         StartCoroutine(GetTable("store", pageIndex, itemPerPage, callback, EndCallback));
     }

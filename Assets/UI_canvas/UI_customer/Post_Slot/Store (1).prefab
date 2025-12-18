@@ -793,6 +793,7 @@ GameObject:
   - component: {fileID: 1358006677589620610}
   - component: {fileID: 6480197170657328686}
   - component: {fileID: 7625972566118196602}
+  - component: {fileID: 3585944035425967944}
   m_Layer: 0
   m_Name: Store (1)
   m_TagString: Untagged
@@ -807,7 +808,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4086630074396166221}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -859,6 +860,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3585944035425967944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4086630074396166221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8f2aecd8ff5404cbf79212c9279872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Title: {fileID: 2303765038225163670}
+  Content: {fileID: 1303572868788060402}
+  rate: {fileID: 6552879299074985060}
+  feedbackCount: {fileID: 621678207656523952}
+  loction: {fileID: 6587642558991524744}
+  _image: {fileID: 721668988459614257}
 --- !u!1 &5956589392113204094
 GameObject:
   m_ObjectHideFlags: 0
