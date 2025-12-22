@@ -16,6 +16,7 @@ public class PostSlot_LoadAction_n_Condition : MonoBehaviour {
         newItem.gameObject.SetActive(true);
         newItem.name = info.title;
         newItem.GetComponent<PostSlot_Item_0_Base>()?.SetInfo(info);
+
     }
 
     public virtual void ClearAllItem() {

@@ -142,13 +142,50 @@ public class WorkWithServer : MonoBehaviour
     //}
 
     public void GetEventInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_event> callback, Action EndCallback) {
-        StartCoroutine(GetTable("event", pageIndex, itemPerPage, callback, EndCallback));
+        //StartCoroutine(GetTable("event", pageIndex, itemPerPage, callback, EndCallback));
+
+        string query =
+            "SELECT `brand`.`id_brand`, `brand`.`name` AS `brand_name`, `brand`.`brand_image_path` AS `brand_avata`, " +
+                "`id_post`, `post_time`, `title`, `content`, `image_path` " +
+            "FROM `event` " +
+            "JOIN `brand` ON `brand`.`id_brand` = `event`.`id_brand` " +
+            "ORDER BY `post_time` DESC " +
+            $"LIMIT {itemPerPage} " +
+            $"OFFSET {pageIndex * itemPerPage} " +
+            ";";
+        StartCoroutine(GetFromQuery(query, callback, EndCallback));
     }
     public void GetStoreInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_store> callback, Action EndCallback) {
         StartCoroutine(GetTable("store", pageIndex, itemPerPage, callback, EndCallback));
     }
     public void GetFoodInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_food> callback, Action EndCallback) {
         StartCoroutine(GetTable("food",pageIndex, itemPerPage, callback, EndCallback));
+    }
+    private IEnumerator GetFromQuery<T>(string Query, Action<T> callback, Action EndCallback) {
+        yield return null;
+        WWWForm form = new WWWForm();
+        form.AddField("Query", Query);
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/PHP_GetSpecial/GetFromQuery.php", form)) {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success) {
+                Debug.LogError("Error: " + www.error);
+            }
+            else {
+                string responseText = www.downloadHandler.text;
+                if (responseText[0] != '0') { // server indicates error
+                    Debug.LogError("Error# " + responseText);
+                    yield break;
+                }
+                Debug.Log("Special : " + responseText);
+                responseText = responseText.Substring(1);
+                T[] E_item_list = JsonArrayUtility.FromJsonArray<T>(responseText);
+                foreach (T E_item in E_item_list) {
+                    callback?.Invoke(E_item);
+                    yield return null;
+                }
+            }
+        }
+        EndCallback?.Invoke();
     }
     private IEnumerator GetTable<T>(string tableName, int pageIndex, int itemPerPage, Action<T> callback, Action EndCallback) {
         yield return null;
@@ -188,7 +225,7 @@ public class WorkWithServer : MonoBehaviour
     public IEnumerator GetImage(string Name, Action<Sprite> callback) {
         WWWForm form = new WWWForm();
         form.AddField("ImageName", Name);
-        using(UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/GetImage.php", form)) {
+        using(UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/PHP_GetSpecial/GetImage.php", form)) {
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success) {
                 Debug.LogError("Error: " + www.error);

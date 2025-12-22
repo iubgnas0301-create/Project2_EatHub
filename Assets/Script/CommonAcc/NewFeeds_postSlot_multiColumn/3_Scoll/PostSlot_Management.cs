@@ -75,6 +75,7 @@ public class PostSlot_Management : MonoBehaviour {
     }
 
     private void BottomReach2(PostSlot_LoadAction_n_Condition whoReach) {
-        whoReach.PrepareForLoad(++pageIndex, itemPerPage);
+        whoReach.PrepareForLoad(pageIndex, itemPerPage);
+        pageIndex++;
     }
 }

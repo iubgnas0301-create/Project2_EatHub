@@ -9,6 +9,7 @@ public class PostSlot_Item_1_event : PostSlot_Item_0_Base {
     [SerializeField] private TextMeshProUGUI feedbackCount;
     [SerializeField] private TextMeshProUGUI DatetimepPost;
     [SerializeField] private Image _image;
+    [SerializeField] private Image _brandAvata;
 
     private E_PostSlot_event _info;
 
@@ -18,7 +19,7 @@ public class PostSlot_Item_1_event : PostSlot_Item_0_Base {
         if (_info is null) { Debug.Log($"Can't read {newInfo} info as event"); return; }
 
         // Set Information
-        Title.text = "brand name";
+        Title.text = _info.brand_name;
         Content.text = $"{_info.title}\n<color=#FFFFFF88>{_info.description}</color>";
         rate.text = "0.0";
         feedbackCount.text = $"(000 feedbacks)";
@@ -30,6 +31,11 @@ public class PostSlot_Item_1_event : PostSlot_Item_0_Base {
             _info._image = output;
             _image.color = Color.white;
             _image.sprite = output;
+        });
+        WorkWithServer.Instance.DownLoadImage(_info.brand_avata, (Sprite output) => {
+            Debug.Log($"Event Brand Avata downloaded from path: {_info.brand_avata}");
+            _brandAvata.color = Color.white;
+            _brandAvata.sprite = output;
         });
     }
     public override void Call2Server(int curentPage, int itemPerPage, Action<E_PostSlot_0_Base> callbackCreateItem, Action callbackEnd) {
