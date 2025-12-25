@@ -4,10 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PostSlot_Item_1_food : PostSlot_Item_0_Base {
+    [Header("Output")]
     [SerializeField] private TextMeshProUGUI rate;
     [SerializeField] private TextMeshProUGUI feedbackCount;
     [SerializeField] private TextMeshProUGUI price;
     [SerializeField] private Image _image;
+
+    [Header("Fillter")]
+    [SerializeField] private TextMeshProUGUI searchInput;
+    [SerializeField] private TMP_Dropdown dropdown;
 
     private E_PostSlot_food _info;
     public override void SetInfo(E_PostSlot_0_Base newInfo) {
@@ -37,6 +42,8 @@ public class PostSlot_Item_1_food : PostSlot_Item_0_Base {
         Debug.Log($"{gameObject.name} Call Food Info from Server");
         WorkWithServer.Instance.GetFoodInfo(
             curentPage, itemPerPage,
-            callbackCreateItem, callbackEnd);
+            callbackCreateItem, callbackEnd
+            ,searchInput.text.Trim('\u200b'), (WorkWithServer.SearchFillter)dropdown.value
+            );
     }
 }

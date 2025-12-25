@@ -33,7 +33,7 @@ public class PostSlot_Management : MonoBehaviour {
             con.OnReachBottom += BottomReach2;
             Debug.Log($"Subscribe BottomReach to {column}");
         }
-        Reload2();
+        Reload();
     }
 
     private void OnScrollValueChanged(Vector2 pos) {
@@ -57,14 +57,14 @@ public class PostSlot_Management : MonoBehaviour {
             if (s == state) return;
             state = s;
             if (state == State.top) {
-                Reload2();
+                Reload();
                 Debug.Log("reach Top");
             }
         }
     }
 
 
-    private void Reload2() {
+    public void Reload() {
         pageIndex = 0;
         foreach (Transform column in Columns) {
             PostSlot_LoadAction_n_Condition COL1 = column.GetComponent<PostSlot_LoadAction_n_Condition>();

@@ -10,6 +10,40 @@ public class WorkWithServer : MonoBehaviour
 {
     public static WorkWithServer Instance;
 
+    public enum SearchFillter {
+        None,
+        Rate_DESC,
+        Rate_ASC,
+        Price_ASC,
+        Price_DESC,
+    }
+
+    private string Fillter2Query(string tableName,SearchFillter filler) {
+        switch (filler) {
+            case SearchFillter.Rate_ASC:
+                return $"ORDER BY `{tableName}`.`rate` ASC ";
+            case SearchFillter.Rate_DESC:
+                return $"ORDER BY `{tableName}`.`rate` DESC ";
+            default:
+                return "";
+        }
+    }
+
+    private string Fillter2Query_food(SearchFillter filler) {
+        switch (filler) {
+            case SearchFillter.Rate_ASC:
+                return "ORDER BY `food`.`rate` ASC ";
+            case SearchFillter.Rate_DESC:
+                return "ORDER BY `food`.`rate` DESC ";
+            case SearchFillter.Price_ASC:
+                return "ORDER BY `food`.`price` ASC ";
+            case SearchFillter.Price_DESC:
+                return "ORDER BY `food`.`price` DESC ";
+            default:
+                return "";
+        }
+    }
+
     private void Awake() {
         Instance = this;
     }
@@ -145,7 +179,8 @@ public class WorkWithServer : MonoBehaviour
         //StartCoroutine(GetTable("event", pageIndex, itemPerPage, callback, EndCallback));
 
         string query =
-            "SELECT `brand`.`id_brand`, `brand`.`name` AS `brand_name`, `brand`.`brand_image_path` AS `brand_avata`, " +
+            "SELECT `brand`.`id_brand`, `brand`.`name` AS `brand_name`, `brand`.`rate` AS `rate`, " +
+                "`brand`.`brand_image_path` AS `brand_avata`, " +
                 "`id_post`, `post_time`, `title`, `content`, `image_path` " +
             "FROM `event` " +
             "JOIN `brand` ON `brand`.`id_brand` = `event`.`id_brand` " +
@@ -155,11 +190,43 @@ public class WorkWithServer : MonoBehaviour
             ";";
         StartCoroutine(GetFromQuery(query, callback, EndCallback));
     }
-    public void GetStoreInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_store> callback, Action EndCallback) {
-        StartCoroutine(GetTable("store", pageIndex, itemPerPage, callback, EndCallback));
+    public void GetStoreInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_store> callback, Action EndCallback,
+        string search = "", SearchFillter fillter = SearchFillter.None) {
+        //StartCoroutine(GetTable("store", pageIndex, itemPerPage, callback, EndCallback));
+        string query =
+            "SELECT `brand`.`id_brand`, `brand`.`name` AS `brand_name`, `brand`.`brand_image_path` AS `brand_avata`, `brand`.`product` AS `brand_product`, " +
+                "`store`.`id_store`, `store`.`name`, `store`.`address`, `store`.`rate`, `store`.`image_path` " +
+            "FROM `store` " +
+            "JOIN `brand` ON `brand`.`id_brand` = `store`.`id_brand` " +
+            $"WHERE `brand`.`name` LIKE \"%{search}%\"  " +
+                $"OR `brand`.`product` LIKE \"%{search}%\" " +
+                $"OR `store`.`name` LIKE \"%{search}%\" " +
+                $"OR `store`.`address` LIKE \"%{search}%\" " +
+            Fillter2Query("store",fillter) +
+            $"LIMIT {itemPerPage} " +
+            $"OFFSET {pageIndex * itemPerPage} " +
+            ";";
+        Debug.Log(query);
+        StartCoroutine(GetFromQuery(query, callback, EndCallback));
     }
-    public void GetFoodInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_food> callback, Action EndCallback) {
-        StartCoroutine(GetTable("food",pageIndex, itemPerPage, callback, EndCallback));
+    public void GetFoodInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_food> callback, Action EndCallback,
+        string search = "", SearchFillter fillter = SearchFillter.None) {
+        //StartCoroutine(GetTable("food",pageIndex, itemPerPage, callback, EndCallback));
+        string query =
+            "SELECT `brand`.`id_brand`, `brand`.`name` AS `brand_name`, " +
+                "`food`.`id_food`, `food`.`name`, `food`.`price`, `food`.`quantity_per_set`, " +
+                "`food`.`describle`, `food`.`rate`, `food`.`limitted_quantity`, `food`.`image_path` " +
+            "FROM `food` " +
+            "JOIN `brand` ON `brand`.`id_brand` = `food`.`id_brand` " +
+            $"WHERE `brand`.`name` LIKE \"%{search}%\"  " +
+                $"OR `food`.`name` LIKE \"%{search}%\" " +
+                $"OR `food`.`describle` LIKE \"%{search}%\" " +
+            Fillter2Query_food(fillter) +
+            $"LIMIT {itemPerPage} " +
+            $"OFFSET {pageIndex * itemPerPage} " +
+            ";";
+        Debug.Log(query);
+        StartCoroutine(GetFromQuery(query, callback, EndCallback));
     }
     private IEnumerator GetFromQuery<T>(string Query, Action<T> callback, Action EndCallback) {
         yield return null;

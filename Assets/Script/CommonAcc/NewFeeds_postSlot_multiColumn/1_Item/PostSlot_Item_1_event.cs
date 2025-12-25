@@ -21,7 +21,7 @@ public class PostSlot_Item_1_event : PostSlot_Item_0_Base {
         // Set Information
         Title.text = _info.brand_name;
         Content.text = $"{_info.title}\n<color=#FFFFFF88>{_info.description}</color>";
-        rate.text = "0.0";
+        rate.text = _info.rate.ToString("0.0");
         feedbackCount.text = $"(000 feedbacks)";
         DatetimepPost.text = _info.post_time;
 

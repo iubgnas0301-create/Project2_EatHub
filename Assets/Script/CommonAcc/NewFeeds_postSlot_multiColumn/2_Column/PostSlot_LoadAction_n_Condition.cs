@@ -29,8 +29,7 @@ public class PostSlot_LoadAction_n_Condition : MonoBehaviour {
     public virtual void PrepareForLoad(int pageIndex, int itemPerPage) {
         tempplate.GetComponent<PostSlot_Item_0_Base>().Call2Server(
             pageIndex, itemPerPage,
-            CreateItem,
-            UpadateMaxScollValue);
+            CreateItem, UpadateMaxScollValue);
     }
     #endregion Actions
 

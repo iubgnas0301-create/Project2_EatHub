@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class T1 : MonoBehaviour
 {
+    public TMP_Dropdown dd;
+
     void Start() {
         
-        temp1();
     }
 
     void temp1() {
@@ -36,5 +39,9 @@ public class T1 : MonoBehaviour
             
             Debug.Log(Output);
         }
+    }
+
+    public void temp3() {
+        Debug.Log(dd.value);
     }
 }
