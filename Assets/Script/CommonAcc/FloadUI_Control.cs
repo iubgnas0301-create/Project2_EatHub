@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ public class FloadUI_Control : MonoBehaviour
 
     private GameObject[] floadUI_s;
     [SerializeField] private GameObject FloadUI_BG;
+
+    public Action OnOutSideClick;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -41,5 +44,9 @@ public class FloadUI_Control : MonoBehaviour
         foreach (var theUI in UI_needShow) {
             theUI.SetActive(true);
         }
+    }
+
+    public void OutSideClick() {
+        OnOutSideClick?.Invoke();
     }
 }

@@ -9,8 +9,16 @@ public class FloadUI_Avata_Init : MonoBehaviour
     [SerializeField] private TextMeshProUGUI UserExp;
     [SerializeField] private Slider UserExpSlider;
 
+    [Header("Float UI Manager")]
+    [SerializeField] private FloadUI_Control FloadUI_Manager;
+
     private void OnEnable() {
         UpdateUserInfo();
+        FloadUI_Manager.OnOutSideClick += OutSideClickHandler;
+    }
+
+    private void OnDisable() {
+        FloadUI_Manager.OnOutSideClick -= OutSideClickHandler;
     }
 
     public void UpdateUserInfo() {
@@ -25,5 +33,9 @@ public class FloadUI_Avata_Init : MonoBehaviour
         UserRank.text = "RANK " +  presentInfo.rank.ToString();
         UserExp.text = presentInfo.exp.ToString("000") + "/" + presentInfo.expPerRank.ToString("000");
         UserExpSlider.value = (float)presentInfo.exp / presentInfo.expPerRank;
+    }
+
+    private void OutSideClickHandler() {
+        FloadUI_Manager.HideFloads();
     }
 }

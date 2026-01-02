@@ -7,7 +7,6 @@ public class T1 : MonoBehaviour
     public TMP_Dropdown dd;
 
     void Start() {
-        
     }
 
     void temp1() {
@@ -43,5 +42,10 @@ public class T1 : MonoBehaviour
 
     public void temp3() {
         Debug.Log(dd.value);
+    }
+
+    public void temp4() {
+        if (Static_Info.UserInfo is null) Debug.Log("NoStaticUser");
+        Debug.Log(Static_Info.UserInfo.username);
     }
 }

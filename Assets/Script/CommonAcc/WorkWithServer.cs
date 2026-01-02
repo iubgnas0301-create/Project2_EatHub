@@ -28,7 +28,6 @@ public class WorkWithServer : MonoBehaviour
                 return "";
         }
     }
-
     private string Fillter2Query_food(SearchFillter filler) {
         switch (filler) {
             case SearchFillter.Rate_ASC:
@@ -174,7 +173,6 @@ public class WorkWithServer : MonoBehaviour
     //        }
     //    }
     //}
-
     public void GetEventInfo(int pageIndex, int itemPerPage, Action<E_PostSlot_event> callback, Action EndCallback) {
         //StartCoroutine(GetTable("event", pageIndex, itemPerPage, callback, EndCallback));
 
@@ -213,7 +211,7 @@ public class WorkWithServer : MonoBehaviour
         string search = "", SearchFillter fillter = SearchFillter.None) {
         //StartCoroutine(GetTable("food",pageIndex, itemPerPage, callback, EndCallback));
         string query =
-            "SELECT `brand`.`id_brand`, `brand`.`name` AS `brand_name`, " +
+            "SELECT `brand`.`id_brand`, " +
                 "`food`.`id_food`, `food`.`name`, `food`.`price`, `food`.`quantity_per_set`, " +
                 "`food`.`describle`, `food`.`rate`, `food`.`limitted_quantity`, `food`.`image_path` " +
             "FROM `food` " +
@@ -227,6 +225,11 @@ public class WorkWithServer : MonoBehaviour
             ";";
         Debug.Log(query);
         StartCoroutine(GetFromQuery(query, callback, EndCallback));
+    }
+    public void GetBrandInfo(int id_brand, Action<E_BrandInfo> callback) {
+        string query = $"SELECT * FROM `brand` WHERE `id_brand` = {id_brand};";
+        Debug.Log(query);
+        StartCoroutine(GetFromQuery(query, callback, null));
     }
     private IEnumerator GetFromQuery<T>(string Query, Action<T> callback, Action EndCallback) {
         yield return null;

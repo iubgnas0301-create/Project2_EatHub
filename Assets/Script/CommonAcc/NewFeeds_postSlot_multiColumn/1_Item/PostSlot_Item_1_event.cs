@@ -44,4 +44,7 @@ public class PostSlot_Item_1_event : PostSlot_Item_0_Base {
             curentPage, itemPerPage,
             callbackCreateItem, callbackEnd);
     }
+    public override E_PostSlot_0_Base GetInfo() {
+        return _info;
+    }
 }

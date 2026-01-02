@@ -13,4 +13,5 @@ public abstract class PostSlot_Item_0_Base : MonoBehaviour {
         int curentPage, int itemPerPage,
         Action<E_PostSlot_0_Base> callbackCreateItem,
         Action callbackEnd);
+    public abstract E_PostSlot_0_Base GetInfo();
 }

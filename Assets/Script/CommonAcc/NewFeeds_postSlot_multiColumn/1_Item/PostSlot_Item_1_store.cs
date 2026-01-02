@@ -64,4 +64,7 @@ public class PostSlot_Item_1_store : PostSlot_Item_0_Base {
     public void callbackEnd() {
         dropdown.interactable = true;
     }
+    public override E_PostSlot_0_Base GetInfo() {
+        return _info;
+    }
 }

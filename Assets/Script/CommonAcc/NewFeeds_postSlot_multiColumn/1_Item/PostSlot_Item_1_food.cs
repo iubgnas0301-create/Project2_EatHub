@@ -10,6 +10,10 @@ public class PostSlot_Item_1_food : PostSlot_Item_0_Base {
     [SerializeField] private TextMeshProUGUI price;
     [SerializeField] private Image _image;
 
+    [Header("Post Click")]
+    [SerializeField] private GameObject[] Fload2Show;
+    private Fload_Orderfood_handler orderfood_Handler;
+
     [Header("Fillter")]
     [SerializeField] private TextMeshProUGUI searchInput;
     [SerializeField] private TMP_Dropdown dropdown;
@@ -45,5 +49,15 @@ public class PostSlot_Item_1_food : PostSlot_Item_0_Base {
             callbackCreateItem, callbackEnd
             ,searchInput.text.Trim('\u200b'), (WorkWithServer.SearchFillter)dropdown.value
             );
+    }
+    public override E_PostSlot_0_Base GetInfo() {
+        return _info;
+    }
+
+    public void Post_Click() {
+        orderfood_Handler = Fload2Show[0].GetComponent<Fload_Orderfood_handler>();
+        FloadUI_Control.Instance.ShowFloads(Fload2Show);
+
+        orderfood_Handler.ShowInfo(_info);
     }
 }
