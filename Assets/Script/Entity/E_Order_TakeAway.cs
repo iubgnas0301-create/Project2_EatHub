@@ -14,9 +14,20 @@ public class E_Order_TakeAway
     public bool is_shipping;
     public string ship_address;
     public string datetime_appoint;
+    public string username_appoint;
+    public string phone_number;
+    public float fee;
+    public bool pay_after;
     public int state;
 
-    public OrderTakeAway_State TakeAway_State;
+    public OrderTakeAway_State TakeAway_State { 
+        get {
+            return (OrderTakeAway_State)state;
+        }
+        set {
+            state = (int)value;
+        }
+    }
     public enum OrderTakeAway_State {
         Huy = -1,
         ChuaTiepNhan = 0,

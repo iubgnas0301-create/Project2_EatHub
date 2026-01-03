@@ -10,7 +10,9 @@ public class Notifi_Action : MonoBehaviour
 
     private float _maxAlpha = 0.98f;
 
+    public static Notifi_Action instance;
     private void Start() {
+        instance = this;
         SetActiveTo(false);
     }
     public void Notifi_Act(string message = "Funtion Under Development")

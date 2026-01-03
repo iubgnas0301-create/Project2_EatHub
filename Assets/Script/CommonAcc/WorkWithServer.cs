@@ -231,19 +231,38 @@ public class WorkWithServer : MonoBehaviour
         Debug.Log(query);
         StartCoroutine(GetFromQuery(query, callback, null));
     }
-    private IEnumerator GetFromQuery<T>(string Query, Action<T> callback, Action EndCallback) {
+    public void InsertFoodOrderTakeAway(E_Order_TakeAway _info, Action SuccessCallback, Action ErrorCallback) {
+        string query = "INSERT INTO `order_takeaway` " + 
+            "(`id_order_takeaway`, `id_brand`, `id_food`, `id_customer`, " + 
+            "`datetime_order`, `quantity`, `is_shipping`, `ship_address`, " + 
+            "`datetime_appoint`, `username_appoint`, `phone_number`, `fee`, " +
+            "`pay_after`, `state`) " + 
+            "VALUES " +
+            $"(NULL, {_info.id_brand}, {_info.id_food}, {_info.id_customer}, " +
+            $"NULL, {_info.quantity}, {_info.is_shipping}, \"{_info.ship_address}\", " + 
+            $"\"{_info.datetime_appoint}\", \"{_info.username_appoint}\", \"{_info.phone_number}\", {_info.fee}, " +
+            $"{_info.pay_after}, {_info.state})";
+
+        Debug.Log(query);
+        StartCoroutine(PushFromQuery(query, SuccessCallback, ErrorCallback));
+    }
+    
+    private IEnumerator GetFromQuery<T>(string Query, Action<T> callback, Action EndCallback, Action ErrorCallback = null) {
         yield return null;
         WWWForm form = new WWWForm();
         form.AddField("Query", Query);
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/PHP_GetSpecial/GetFromQuery.php", form)) {
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success) {
-                Debug.LogError("Error: " + www.error);
+                Debug.Log("Error: " + www.error);
+                ErrorCallback?.Invoke();
+                yield break;
             }
             else {
                 string responseText = www.downloadHandler.text;
                 if (responseText[0] != '0') { // server indicates error
-                    Debug.LogError("Error# " + responseText);
+                    Debug.Log("Error# " + responseText);
+                    ErrorCallback?.Invoke();
                     yield break;
                 }
                 Debug.Log("Special : " + responseText);
@@ -253,6 +272,29 @@ public class WorkWithServer : MonoBehaviour
                     callback?.Invoke(E_item);
                     yield return null;
                 }
+            }
+        }
+        EndCallback?.Invoke();
+    }
+    private IEnumerator PushFromQuery(string Query, Action EndCallback, Action ErrorCallback = null) {
+        yield return null;
+        WWWForm form = new WWWForm();
+        form.AddField("Query", Query);
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/PHP_GetSpecial/PushFromQuery.php", form)) {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success) {
+                Debug.Log("Error: " + www.error);
+                ErrorCallback?.Invoke();
+                yield break;
+            }
+            else {
+                string responseText = www.downloadHandler.text;
+                if (responseText[0] != '0') { // server indicates error
+                    Debug.Log("Error# " + responseText);
+                    ErrorCallback?.Invoke();
+                    yield break;
+                }
+                Debug.Log("Special : " + responseText);
             }
         }
         EndCallback?.Invoke();
