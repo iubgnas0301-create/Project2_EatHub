@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using NUnit.Framework.Api;
+using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +9,8 @@ public class T1 : MonoBehaviour
     public TMP_Dropdown dd;
 
     void Start() {
+        //WorkWithServer.Instance.Get_SlotList_OfStore(1, 1, null, null);
+        //WorkWithServer.Instance.Get_SlotZONElist_OfStore(1, 1, null, null);
     }
 
     void temp1() {
@@ -48,4 +52,58 @@ public class T1 : MonoBehaviour
         if (Static_Info.UserInfo is null) Debug.Log("NoStaticUser");
         Debug.Log(Static_Info.UserInfo.username);
     }
+
+    public void temp5() {
+        string query = "INSERT INTO `table_slot` " +
+            "\r\n\t(`id_brand`, `id_store`, `id_slot`, `name`, `capacity`, `price`, `zone`, `state`) " +
+            "\r\nVALUES " +
+            "\r\n\t('0000000001', '0000000001', '1', 'Bàn số 1', '4', '100000', 'Tầng 1', '0')," +
+            "\r\n\t('0000000001', '0000000001', '2', 'Bàn số 2', '6', '120000', 'Tầng 1', '0')," +
+            "\r\n\t('0000000001', '0000000001', '3', 'Bàn lớn', '10', '200000', 'Tầng 1', '0')," +
+            "\r\n\t('0000000001', '0000000001', '4', 'Bàn số 3', '6', '120000', 'Tầng 2', '0')," +
+            "\r\n\t('0000000001', '0000000001', '5', 'Bàn số 4', '4', '100000', 'Tầng 2', '0')," +
+            "\r\n\t('0000000001', '0000000001', '6', 'Bàn ngoài trời', '8', '240000', 'Tầng 3', '0')";
+        for (int i = 1; i <= 5; i++) {
+            for (int j = 1; j <= 2; j++) {
+                if (i == 1 && j == 1) continue;
+
+                int banso = 0;
+                int soLuongBan = Random.Range(5, 10);
+                int tangso = 1;
+
+                int z = 0;
+                while (z < soLuongBan) {
+                    z++;
+                    nameChoise tableType = (nameChoise)Random.Range(0, 3);
+                    string name = Patse(tableType, ref banso);
+                    int capacity = (tableType == nameChoise.BanSo) ? Random.Range(1, 3)*2 : Random.Range(1, 10);
+                    int price = capacity * Random.Range(1, 30) * 1000;
+                    string zone = (Random.Range(0, 6) == 0) ? $"Tầng {tangso++}" : $"Tầng {tangso}";
+
+                    query += $",\r\n\t('{i}', '{j}', '{z}', '{name}', '{capacity}', '{price}', '{zone}', '0')";
+                }
+            }
+        }
+        Debug.Log(query);
+
+        string Patse(nameChoise id, ref int banso) {
+            switch (id) {
+                case nameChoise.BanSo:
+                    return $"Bàn số {++banso}";
+                case nameChoise.BanLon:
+                    return "Bàn lớn";
+                case nameChoise.BanNgoaiTroi:
+                    return "Bàn ngoài trời";
+                default:
+                    return "Bàn chung";
+            }
+        }
+    }
+
+    private enum nameChoise {
+        BanSo,
+        BanLon,
+        BanNgoaiTroi
+    }
+
 }

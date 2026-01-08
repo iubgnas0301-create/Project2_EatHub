@@ -8,8 +8,9 @@ public class E_PostSlot_store : E_PostSlot_0_Base
     public string brand_name;
     public string brand_avata;
     public string brand_product;
+    public float brand_rate;
 
-    public string id_store;
+    public int id_store;
     public string name;
     public string address;
     public float rate;

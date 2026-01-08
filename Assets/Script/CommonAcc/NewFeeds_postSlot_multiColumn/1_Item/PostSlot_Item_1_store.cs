@@ -18,7 +18,15 @@ public class PostSlot_Item_1_store : PostSlot_Item_0_Base {
     [SerializeField] private TextMeshProUGUI searchInput;
     [SerializeField] private TMP_Dropdown dropdown;
 
+    [Header("Btn")]
+    [SerializeField] private Button BookASlot_btn;
+    [SerializeField] private GameObject FloadToShow;
+
     private E_PostSlot_store _info;
+
+    private void Start() {
+        BookASlot_btn.onClick.AddListener(OpenFload);
+    }
 
     public override void SetInfo(E_PostSlot_0_Base newInfo) {
         _info = newInfo as E_PostSlot_store;
@@ -66,5 +74,11 @@ public class PostSlot_Item_1_store : PostSlot_Item_0_Base {
     }
     public override E_PostSlot_0_Base GetInfo() {
         return _info;
+    }
+
+    private void OpenFload() {
+        GameObject n = FloadUI_Control_v2.instance.Open_Fload(FloadToShow);
+        Fload_BookASlot_handler fload_ctrl = n.GetComponent<Fload_BookASlot_handler>();
+        fload_ctrl?.ShowInfo(_info);
     }
 }

@@ -22,7 +22,7 @@ public class FloadUI_Avata_Init : MonoBehaviour
     }
 
     public void UpdateUserInfo() {
-        E_UserInfo? presentInfo = Static_Info.UserInfo;
+        E_UserInfo presentInfo = Static_Info.UserInfo;
         presentInfo ??= new E_UserInfo
         {
             id = 0,

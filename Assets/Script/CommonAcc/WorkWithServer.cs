@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
 
 public class WorkWithServer : MonoBehaviour
@@ -46,7 +47,7 @@ public class WorkWithServer : MonoBehaviour
     private void Awake() {
         Instance = this;
     }
-
+    #region ///////////////////// GetInfo /////////////////////
     public IEnumerator GetUserInfo(Action callback) {
 
         yield return null;
@@ -192,7 +193,8 @@ public class WorkWithServer : MonoBehaviour
         string search = "", SearchFillter fillter = SearchFillter.None) {
         //StartCoroutine(GetTable("store", pageIndex, itemPerPage, callback, EndCallback));
         string query =
-            "SELECT `brand`.`id_brand`, `brand`.`name` AS `brand_name`, `brand`.`brand_image_path` AS `brand_avata`, `brand`.`product` AS `brand_product`, " +
+            "SELECT `brand`.`id_brand`, `brand`.`name` AS `brand_name`, `brand`.`brand_image_path` AS `brand_avata`, " + 
+                "`brand`.`product` AS `brand_product`, `brand`.`rate` as `brand_rate`, " +
                 "`store`.`id_store`, `store`.`name`, `store`.`address`, `store`.`rate`, `store`.`image_path` " +
             "FROM `store` " +
             "JOIN `brand` ON `brand`.`id_brand` = `store`.`id_brand` " +
@@ -231,6 +233,38 @@ public class WorkWithServer : MonoBehaviour
         Debug.Log(query);
         StartCoroutine(GetFromQuery(query, callback, null));
     }
+    public void GetStoreListOfBrand(int id_brand, Action<E_PostSlot_store> callback, Action EndCallback) {
+        string query = $"SELECT * FROM `store` WHERE `id_brand` = {id_brand};";
+        Debug.Log(query);
+        StartCoroutine(GetFromQuery(query, callback, EndCallback));
+    }
+    public void Get_SlotList_OfStore(int id_brand, int id_store, Action<E_Table_Slot> callback, Action EndCallback) {
+        string query = "SELECT * FROM `table_slot` "+
+            $"WHERE `id_brand` = {id_brand} AND `id_store` = {id_store} ";
+        Debug.Log(query);
+        StartCoroutine(GetFromQuery(query, callback, EndCallback));
+    }
+    public void Get_SlotZONElist_OfStore(int id_brand, int id_store, Action<E_StoreZoneList> callback, Action EndCallback) {
+        string query = "SELECT `zone`, COUNT(`id_slot`) AS `slot_count` FROM `table_slot` " +
+            $"WHERE `id_brand` = {id_brand} AND `id_store` = {id_store} " +
+            "GROUP BY `zone`";
+        Debug.Log(query);
+        StartCoroutine(GetFromQuery(query, callback, EndCallback));
+    }
+    public void Get_SlotAppointFromDatetime(int id_brand, int id_store,int id_slot, string datetime_appoint,
+        Action<E_Table_Slot_Appointment> callback, Action EndCallback) {
+        string query = "SELECT `datetime_appoint`, `datetime_finnish` " +
+            "FROM `table_slot_appointment` " +
+            "WHERE "+
+                $"`id_brand` = {id_brand} AND `id_store` = {id_store} AND `id_slot` = {id_slot} AND "+
+                $"`datetime_appoint` LIKE \"{datetime_appoint}%\" " +
+            ";";
+        Debug.Log(query);
+        StartCoroutine(GetFromQuery(query, callback, EndCallback));
+    }
+    #endregion
+
+    #region ///////////////////// Insert /////////////////////
     public void InsertFoodOrderTakeAway(E_Order_TakeAway _info, Action SuccessCallback, Action ErrorCallback) {
         string query = "INSERT INTO `order_takeaway` " + 
             "(`id_order_takeaway`, `id_brand`, `id_food`, `id_customer`, " + 
@@ -246,7 +280,9 @@ public class WorkWithServer : MonoBehaviour
         Debug.Log(query);
         StartCoroutine(PushFromQuery(query, SuccessCallback, ErrorCallback));
     }
-    
+    #endregion
+
+    #region ///////////////////// Base /////////////////////
     private IEnumerator GetFromQuery<T>(string Query, Action<T> callback, Action EndCallback, Action ErrorCallback = null) {
         yield return null;
         WWWForm form = new WWWForm();
@@ -352,4 +388,5 @@ public class WorkWithServer : MonoBehaviour
             }
         }
     }
+    #endregion
 }
