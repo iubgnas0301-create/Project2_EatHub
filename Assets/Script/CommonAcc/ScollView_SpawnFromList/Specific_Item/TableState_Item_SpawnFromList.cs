@@ -29,6 +29,9 @@ public class TableState_Item_SpawnFromList : MonoBehaviour, I_Item_SpawnFromList
     }
 
     void callback(E_Table_Slot_Appointment slotAppoint) {
+        if (slotAppoint.state == (int)E_Table_Slot_Appointment.State_Appointment.Cancelled) {
+            return;
+        }
         ToShowBusyState(
             slotAppoint.datetime_appoint.Fomat_string2datetime(),
             slotAppoint.datetime_finnish.Fomat_string2datetime()

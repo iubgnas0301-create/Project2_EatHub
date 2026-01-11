@@ -46,7 +46,12 @@ public class WorkWithServer : MonoBehaviour
     }
 
     private void Awake() {
-        Instance = this;
+        if (Instance == null) {
+            Instance = this;
+            //DontDestroyOnLoad(gameObject);
+        } else {
+            if (Instance != this) Destroy(gameObject);
+        }
     }
     #region ///////////////////// GetInfo /////////////////////
     public IEnumerator GetUserInfo(Action callback) {
@@ -254,7 +259,7 @@ public class WorkWithServer : MonoBehaviour
     }
     public void Get_SlotAppointFromDatetime(int id_brand, int id_store,int id_slot, string datetime_appoint,
         Action<E_Table_Slot_Appointment> callback, Action EndCallback) {
-        string query = "SELECT `datetime_appoint`, `datetime_finnish` " +
+        string query = "SELECT `datetime_appoint`, `datetime_finnish`, `state` " +
             "FROM `table_slot_appointment` " +
             "WHERE "+
                 $"`id_brand` = {id_brand} AND `id_store` = {id_store} AND `id_slot` = {id_slot} AND "+

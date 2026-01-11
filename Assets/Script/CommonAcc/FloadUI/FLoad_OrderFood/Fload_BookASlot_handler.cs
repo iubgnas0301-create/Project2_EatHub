@@ -23,6 +23,7 @@ public class Fload_BookASlot_handler : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _BrandPoroduct;
     [SerializeField] private Image _BrandImage;
     [SerializeField] private TextMeshProUGUI _BrandFeedbackcount;
+    [SerializeField] private TextMeshProUGUI _StoreLocation;
 
     [Header("Input")]
 
@@ -101,8 +102,8 @@ public class Fload_BookASlot_handler : MonoBehaviour {
                 index++;
             }
             _ChiNhanh.value = index;
-
             _ChiNhanh.interactable = true;
+            _StoreLocation.text = Store_info.address;
         }
     }
 
@@ -119,6 +120,7 @@ public class Fload_BookASlot_handler : MonoBehaviour {
     public void ChangeStoreInfo(int index) {
         // on _ChiNhanh Dropdown change value
         Store_info = Store_info_list[index];
+        _StoreLocation.text = Store_info.address;
     }
 
     public void on_SelectionZone_Change(int index) {
@@ -313,7 +315,7 @@ public class Fload_BookASlot_handler : MonoBehaviour {
         _PhiDatTruocMon.text = FoodFee.ToString("N0") + " đ";
         _PhiDatCocBan.text = SlotFee.ToString("N0") + " đ";
         _GiamTru.text = SlotFee > FoodFee ?
-            (-FoodFee).ToString("N0") + " đ" : "0 đ";
+            (-FoodFee).ToString("N0") + " đ" : (-SlotFee).ToString("N0") + " đ";
         _TotalFee.text = the_order.fee.ToString("N0") + " đ";
 
         // go to next step
