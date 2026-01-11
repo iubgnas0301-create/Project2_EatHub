@@ -7,6 +7,11 @@ public class TableState_Item_SpawnFromList : MonoBehaviour, I_Item_SpawnFromList
 
     [SerializeField] private Transform _busyTemplate;
     private List<(DateTime start, DateTime end)> list_busy = new List<(DateTime start, DateTime end)>();
+    //private int maxIdAppoint = -1;
+
+#pragma warning disable 0414 // Disable "assigned but not used" warning
+    public event Action<GameObject> OnValueChanged;
+#pragma warning restore 0414 // Restore "assigned but not used" warning
 
     private void Start() {
         _busyTemplate.gameObject.SetActive(false);
@@ -28,6 +33,10 @@ public class TableState_Item_SpawnFromList : MonoBehaviour, I_Item_SpawnFromList
             slotAppoint.datetime_appoint.Fomat_string2datetime(),
             slotAppoint.datetime_finnish.Fomat_string2datetime()
         );
+        //int rielID = IdAppoint2num(slotAppoint.id_order_grp);
+        //if (rielID > maxIdAppoint) {
+        //    maxIdAppoint = rielID;
+        //}
     }
 
     void ToShowBusyState(DateTime start, DateTime end) {
@@ -41,6 +50,15 @@ public class TableState_Item_SpawnFromList : MonoBehaviour, I_Item_SpawnFromList
         rect.anchoredPosition = new Vector2(startPoint, 0);
         rect.sizeDelta = new Vector2(50 * durationHours, rect.sizeDelta.y);
     }
+    //int IdAppoint2num(string IdAppoint) {
+    //    string[] part = IdAppoint.Split('_');
+    //    string lastpart = part[part.Length - 1];
+    //    int num = (int.TryParse(lastpart,out int n))? n : 0;
+    //    return num;
+    //}
+    //public int GetMaxIdAppoint() {
+    //    return maxIdAppoint;
+    //}
 
     public List<(DateTime start, DateTime end)> GetBusyList() {
         return list_busy;

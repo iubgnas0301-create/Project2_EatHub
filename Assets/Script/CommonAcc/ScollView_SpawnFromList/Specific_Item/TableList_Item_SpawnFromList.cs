@@ -7,6 +7,10 @@ public class TableList_Item_SpawnFromList : MonoBehaviour, I_Item_SpawnFromList 
     [SerializeField] private TextMeshProUGUI output;
     private GameObject _appointState;
 
+#pragma warning disable 0414 // Disable "assigned but not used" warning
+    public event Action<GameObject> OnValueChanged;
+#pragma warning restore 0414 // Restore "assigned but not used" warning
+
     private void OnEnable() {
         _appointState?.SetActive(true);
     }

@@ -1,6 +1,7 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -262,6 +263,84 @@ public class WorkWithServer : MonoBehaviour
         Debug.Log(query);
         StartCoroutine(GetFromQuery(query, callback, EndCallback));
     }
+    public void GetFoodOfBrand(int id_brand, Action<E_PostSlot_food> callback, Action EndCallBack) {
+        string query = 
+            "SELECT `id_brand`, `id_food`, `name`, `price`, `quantity_per_set`, " +
+                "`describle`, `rate`, `limitted_quantity`, `image_path` " +
+            "FROM `food` " +
+            $"WHERE `id_brand` = {id_brand} " +
+            "ORDER BY `rate` DESC " +
+            ";";
+        Debug.Log(query);
+        StartCoroutine(GetFromQuery(query, callback, EndCallBack));
+    }
+    public void GetTableAppoint(int id_customer, Action<E_Show_TableAppoint> callback, Action EndCallback) {
+        string query =
+            "SELECT `table_slot_appointment`.`id_appointment`, " +
+                "`brand`.`name` AS `brand_name`, " +
+                "`store`.`name` AS `store_name`, " +
+                "`table_slot_appointment`.`datetime_appoint` AS `datetime_appoint`, " +
+                "`table_slot_appointment`.`datetime_finnish` AS `datetime_finnish`, " +
+                "`store`.`address` AS `location`, " +
+                "`table_slot_appointment`.`state` AS `state` " +
+            "FROM `table_slot_appointment` " +
+            "JOIN `store` ON " +
+                "`store`.`id_brand` = `table_slot_appointment`.`id_brand` AND " +
+                "`store`.`id_store` = `table_slot_appointment`.`id_store` " +
+            "JOIN `brand` ON `brand`.`id_brand` = `table_slot_appointment`.`id_brand` " +
+            $"WHERE `table_slot_appointment`.`id_customer` = {id_customer} " +
+            "ORDER BY `table_slot_appointment`.`datetime_appoint` DESC " +
+            ";";
+        Debug.Log(query);
+        StartCoroutine(GetFromQuery(query, callback, EndCallback));
+    }
+    public void CancelAppoint(int id_appoint, Action successCallback, Action ErrorCallback) {
+        string query =
+            "UPDATE `table_slot_appointment` " +
+            $"SET `state` = {(int)E_Table_Slot_Appointment.State_Appointment.Cancelled} " +
+            $"WHERE `id_appointment` = {id_appoint} " +
+            ";" +
+            "UPDATE `order_onside` " +
+            $"SET `state` = {(int)E_Order_Onside.State_Appointment.Cancelled} " +
+            $"WHERE `id_appointment` = {id_appoint} " +
+            ";";
+        Debug.Log(query);
+        StartCoroutine(GetFromMultiQuery(query,(string nothing) => { }, successCallback, ErrorCallback));
+    }
+    public void GetFoodOrderTakeAway(int id_customer, Action<E_Show_FoodOrder> callback, Action EndCallback) {
+        string query =
+            "SELECT `order_takeaway`.`id_order_takeaway` AS `id_order_takeaway`, " +
+                "`brand`.`name` AS `brand_name`, " +
+                "`food`.`name` AS `food_name`, " +
+                "`order_takeaway`.`datetime_appoint` AS `datetime_appoint`, " +
+                "`order_takeaway`.`quantity` AS `quantity`, " +
+                "`order_takeaway`.`is_shipping` AS `is_shipping`, " +
+                "`order_takeaway`.`ship_address` AS `ship_address`, " +
+                "`order_takeaway`.`username_appoint` AS `username_appoint`, " +
+                "`order_takeaway`.`phone_number` AS `phone_number`, " +
+                "`order_takeaway`.`fee` AS `fee`, " +
+                "`order_takeaway`.`state` AS `state` " +
+            "FROM `order_takeaway` " +
+            "JOIN `food` ON " +
+                "`food`.`id_brand` = `order_takeaway`.`id_brand` AND " +
+                "`food`.`id_food` = `order_takeaway`.`id_food` " +
+            "JOIN `brand` ON " +
+                "`brand`.`id_brand` = `order_takeaway`.`id_brand` " +
+            $"WHERE `order_takeaway`.`id_customer` = {id_customer} " +
+            "ORDER BY `order_takeaway`.`datetime_appoint` DESC " +
+            ";";
+        Debug.Log(query);
+        StartCoroutine(GetFromQuery(query, callback, EndCallback));
+    }
+    public void CancelFoodOrderTakeAway(int id_order_takeaway, Action successCallback, Action ErrorCallback) {
+        string query =
+            "UPDATE `order_takeaway` " +
+            $"SET `state` = {(int)E_Order_TakeAway.OrderTakeAway_State.Huy} " +
+            $"WHERE `id_order_takeaway` = {id_order_takeaway} " +
+            ";";
+        Debug.Log(query);
+        StartCoroutine(PushFromQuery(query, successCallback, ErrorCallback));
+    }
     #endregion
 
     #region ///////////////////// Insert /////////////////////
@@ -277,6 +356,36 @@ public class WorkWithServer : MonoBehaviour
             $"\"{_info.datetime_appoint}\", \"{_info.username_appoint}\", \"{_info.phone_number}\", {_info.fee}, " +
             $"{_info.pay_after}, {_info.state})";
 
+        Debug.Log(query);
+        StartCoroutine(PushFromQuery(query, SuccessCallback, ErrorCallback));
+    }
+    public void InsertTableSlotAppointment(E_Table_Slot_Appointment _info, Action<E_Table_Slot_Appointment> SuccessCallback, Action ErrorCallback) {
+        int isAdditionFood = _info.is_addition_food?1:0;
+        string query =
+            "INSERT INTO `table_slot_appointment` " +
+                "(`id_brand`, `id_store`, `id_slot`, `id_customer`, " +
+                "`datetime_appoint`, `datetime_finnish`, " +
+                "`username_appoint`, `phone_number`, `fee`, `state`, `is_addition_food`)" +
+            "VALUES " +
+                $"({_info.id_brand}, {_info.id_store}, {_info.id_slot}, {_info.id_customer}, " +
+                $"\"{_info.datetime_appoint}\", \"{_info.datetime_finnish}\", " + 
+                $"\"{_info.username_appoint}\", \"{_info.phone_number}\", " +
+                $"{_info.fee}, {_info.state}, {isAdditionFood});\n" +
+            "SELECT LAST_INSERT_ID() as `id_appointment`;"; // trả về giá trị auto increment vừa chèn
+        Debug.Log(query);
+        StartCoroutine(GetFromMultiQuery(query, SuccessCallback, null, ErrorCallback));
+    }
+    public void InsertOrderOnside(int id_appointment, List<E_Order_Onside> _info, Action SuccessCallback, Action ErrorCallback) {
+        string query =
+            "INSERT INTO `order_onside` " +
+                "(`id_appointment`, `id_brand`, `id_food`, `quantity`, `state`) " +
+            "VALUES ";
+        foreach (E_Order_Onside order in _info) {
+            query += 
+                $"({id_appointment}, {order.id_brand}, {order.id_food}, " +
+                $"{order.quantity}, {order.state}),";
+        }
+        query = query.TrimEnd(',') + ";";
         Debug.Log(query);
         StartCoroutine(PushFromQuery(query, SuccessCallback, ErrorCallback));
     }
@@ -331,6 +440,40 @@ public class WorkWithServer : MonoBehaviour
                     yield break;
                 }
                 Debug.Log("Special : " + responseText);
+            }
+        }
+        EndCallback?.Invoke();
+    }
+    private IEnumerator GetFromMultiQuery<T>(string MultiQuery, Action<T> callback, Action EndCallback, Action ErrorCallback = null) {
+        yield return null;
+        WWWForm form = new WWWForm();
+        form.AddField("MultiQuery", MultiQuery);
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/EatHubConnect/PHP_GetSpecial/GetFromMultiQuery.php", form)) {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success) {
+                Debug.Log("Error: " + www.error);
+                ErrorCallback?.Invoke();
+                yield break;
+            }
+            else {
+                string responseText = www.downloadHandler.text;
+                if (responseText[0] != '0') { // server indicates error
+                    Debug.Log("Error# " + responseText);
+                    ErrorCallback?.Invoke();
+                    yield break;
+                }
+                Debug.Log("Special : " + responseText);
+
+                responseText = responseText.Substring(1);
+                if (string.IsNullOrEmpty(responseText)) {
+                    EndCallback?.Invoke();
+                    yield break;
+                }
+                T[] E_item_list = JsonArrayUtility.FromJsonArray<T>(responseText);
+                foreach (T E_item in E_item_list) {
+                    callback?.Invoke(E_item);
+                    yield return null;
+                }
             }
         }
         EndCallback?.Invoke();

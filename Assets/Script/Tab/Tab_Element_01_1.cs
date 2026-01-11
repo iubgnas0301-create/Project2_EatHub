@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Tab_Element_02 : Tab_Element_01
+public class Tab_Element_01_1 : Tab_Element_01
 {
     [Header("Visual")]
     [SerializeField] private GameObject _Visual;

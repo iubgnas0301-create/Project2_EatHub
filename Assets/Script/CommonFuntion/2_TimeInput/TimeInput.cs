@@ -53,8 +53,7 @@ public class TimeInput : MonoBehaviour
             return;
         }
         value = new DateTime();
-        value.Value.AddHours(hour);
-        value.Value.AddMinutes(minute);
+        value = value?.AddHours(hour).AddMinutes(minute);
         fakeInput.text = $"{hour.ToString("D2")} : {minute.ToString("D2")}";
         temp_Debug = $"set {hour} : {minute}";
     }

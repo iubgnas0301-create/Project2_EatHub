@@ -4,7 +4,7 @@ using UnityEngine;
 public class Tab_Group_01 : MonoBehaviour, I_Tab_Group_ctrl {
 
     [SerializeField] private Transform GroupTab;
-
+    [SerializeField] private int fistSelectedIndex = 0;
     private I_Tab_Element_ctrl _SelectedTab;
     private bool _isFirstRunDone = false;
 
@@ -31,8 +31,9 @@ public class Tab_Group_01 : MonoBehaviour, I_Tab_Group_ctrl {
 
     private void Initiate() {
         DeselectAllChild();
+        fistSelectedIndex = (fistSelectedIndex < GroupTab.childCount && fistSelectedIndex >= 0)? fistSelectedIndex : 0;
         if (GroupTab.childCount > 0) {
-            _SelectedTab = GroupTab.GetComponentInChildren<I_Tab_Element_ctrl>();
+            _SelectedTab = GroupTab.GetChild(fistSelectedIndex).GetComponent<I_Tab_Element_ctrl>();
             _SelectedTab.Selected();
             Debug.Log($"have {_SelectedTab} child");
         }

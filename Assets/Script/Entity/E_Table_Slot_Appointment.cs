@@ -11,8 +11,11 @@ public class E_Table_Slot_Appointment
     public int id_customer;
     public string datetime_appoint;
     public string datetime_finnish;
+    public string username_appoint;
+    public string phone_number;
+    public int fee;
     public int state;
-    public string id_order_grp;
+    public bool is_addition_food;
 
     public State_Appointment _state_ {
         get { return (State_Appointment)state; }

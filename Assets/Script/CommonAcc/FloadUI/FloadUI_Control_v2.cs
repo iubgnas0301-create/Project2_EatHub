@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,5 +25,21 @@ public class FloadUI_Control_v2 : MonoBehaviour
             Destroy(last);
             Fload_Stack.RemoveAt(lastindex);
         }
+    }
+
+    
+
+
+    [SerializeField] private subFloadUI sub;
+    [Serializable]
+    public class subFloadUI {
+        public Transform _yesnoFload;
+    }
+    public YesNo_Fload Open_YesNoFload(string question = "Bạn có chắc không?", string yesString = "Có", string noString = "Không") {
+        //GameObject yesnofload = Open_Fload(Resources.Load<GameObject>("Prefabs/FloadUI/YesNo_Fload"));
+        YesNo_Fload ins = Open_Fload(sub._yesnoFload.gameObject).GetComponent<YesNo_Fload>();
+        ins.SetQuestion(question);
+        ins.SetNameOfYesNoBtn(yesString, noString);
+        return ins;
     }
 }

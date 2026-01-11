@@ -4,14 +4,18 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Fload_BookASlot_handler : MonoBehaviour {
-    [Header("Step")]
-    [SerializeField] private GameObject _step1;
-    [SerializeField] private GameObject _step2;
-    [SerializeField] private GameObject _step3;
+    [SerializeField] private MainStep Step;
+    [Serializable] private class MainStep {
+        public GameObject _step1;
+        public GameObject _step2;
+        public GameObject _step3;
+        public GameObject _step4;
+    }
 
     [Header("Show")]
     [SerializeField] private TextMeshProUGUI _BrandName;
@@ -21,10 +25,11 @@ public class Fload_BookASlot_handler : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _BrandFeedbackcount;
 
     [Header("Input")]
-    // step1
+
+    //step1
     [SerializeField] private TMP_Dropdown _ChiNhanh;
     List<TMP_Dropdown.OptionData> optionlist = new List<TMP_Dropdown.OptionData>();
-    // step2
+    //step2
     [SerializeField] private TMP_Dropdown _SelectionZone;
     [SerializeField] private TMP_Dropdown _SelectionSlot;
     [SerializeField] private Scoll_SpawnFromList View_tableName;
@@ -34,21 +39,19 @@ public class Fload_BookASlot_handler : MonoBehaviour {
     [SerializeField] private TimeInput Time_end;
     [SerializeField] private TMP_Dropdown Table_selection;
     //step3
-
-    //
-    [SerializeField] private NumberPicker _amount;
-
-    [SerializeField] private Toggle _shippingChoise;
-    [SerializeField] private TMP_InputField _DiaChiGiaoHang;
-    [SerializeField] private TMP_InputField _ThoiGianHenLayHang;
-
+    [SerializeField] private Scoll_SpawnFromList FoodList_ScrollView;
+    //step4
     [SerializeField] private TMP_InputField _TenNguoiDatMon;
     [SerializeField] private TMP_InputField _SoDienThoai;
-    [SerializeField] private Toggle _ThanhToanKhiNhanHang;
 
     [Header("Output")]
-    [SerializeField] private TextMeshProUGUI _TienMon;
-    [SerializeField] private TextMeshProUGUI _PhiVanChuyen;
+    // step3 fee output
+    [SerializeField] private TextMeshProUGUI _PhiDatTruocDoAn;
+    [SerializeField] private TextMeshProUGUI _PhanTramGiamTru;
+    // step4
+    [SerializeField] private TextMeshProUGUI _PhiDatCocBan;
+    [SerializeField] private TextMeshProUGUI _GiamTru;
+    [SerializeField] private TextMeshProUGUI _PhiDatTruocMon;
     [SerializeField] private TextMeshProUGUI _TotalFee;
 
     [Header("data")]
@@ -58,6 +61,12 @@ public class Fload_BookASlot_handler : MonoBehaviour {
     private List<E_StoreZoneList> ListZONE = new List<E_StoreZoneList>();
 
     private E_Table_Slot_Appointment the_order = new E_Table_Slot_Appointment();
+    private List<E_Order_Onside> the_additionFood = new List<E_Order_Onside>();
+    private int SlotFee;
+    private int FoodFee;
+
+    [Header("Error")]
+    [SerializeField] private GameObject YesNoFload;
 
 
     private void OnEnable() {
@@ -65,6 +74,10 @@ public class Fload_BookASlot_handler : MonoBehaviour {
     }
     private void OnDisable() {
         GC.Collect();
+    }
+
+    private void Start() {
+        FoodList_ScrollView.OnItemValueChanged += RecalculateFee; // for step 3
     }
 
     public void ShowInfo(E_PostSlot_store storeInfo) {
@@ -126,9 +139,10 @@ public class Fload_BookASlot_handler : MonoBehaviour {
     /// reset step show
     /// </summary>
     private void Step0() {
-        _step1.SetActive(true);
-        _step2.SetActive(false);
-        _step3.SetActive(false);
+        Step._step1.SetActive(true);
+        Step._step2.SetActive(false);
+        Step._step3.SetActive(false);
+        Step._step4.SetActive(false);
     }
 
     /// <summary>
@@ -189,8 +203,8 @@ public class Fload_BookASlot_handler : MonoBehaviour {
         else { Debug.Log("Step2 no need change"); }
 
         // Show Step 2
-        _step1.SetActive(false);
-        _step2.SetActive(true);
+        Step._step1.SetActive(false);
+        Step._step2.SetActive(true);
     }
 
     public void Step2() {
@@ -212,11 +226,18 @@ public class Fload_BookASlot_handler : MonoBehaviour {
             return;
         }
 
-        int tableIndex = Table_selection.value;
-        TableState_Item_SpawnFromList table = View_tableStatus.transform.GetChild(tableIndex + 1).GetComponent<TableState_Item_SpawnFromList>();
+        int tableIndex = Table_selection.value; 
+        TableState_Item_SpawnFromList table = View_tableStatus.GetHolder().GetChild(tableIndex + 1).GetComponent<TableState_Item_SpawnFromList>();
         List<(DateTime start, DateTime end)> busyList = table.GetBusyList();
+
+        int timeStart = Time_start.value.Value.Hour * 60 + Time_start.value.Value.Minute;
+        int timeEnd = Time_end.value.Value.Hour * 60 + Time_end.value.Value.Minute;
+
         foreach (var busy in busyList) {
-            if (!(Time_end.value.Value <= busy.start || Time_start.value.Value >= busy.end)) {
+            int busyStart = busy.start.Hour * 60 + busy.start.Minute;
+            int busyEnd = busy.end.Hour * 60 + busy.end.Minute;
+
+            if (!(timeEnd <= busyStart || timeStart >= busyEnd)) {
                 Notifi_Action.instance.Notifi_Act("Bàn đã được đặt trong khung thời gian này, vui lòng chọn bàn khác hoặc khung giờ khác");
                 return;
             }
@@ -235,48 +256,126 @@ public class Fload_BookASlot_handler : MonoBehaviour {
             Time_end.value.Value.ToString("HH:mm:ss");
         the_order._state_ = E_Table_Slot_Appointment.State_Appointment.Appointed;
 
+        SlotFee = ListTable[tableIndex].price;
 
 
-        //// prepair to next step
-        //_TenNguoiDatMon.text = Static_Info.UserInfo.username;
 
-        //int TienMon = food_info.price * the_order.quantity;
-        //float PhiVanChuyen = the_order.is_shipping ? (TienMon * 0.1f) : 0.0f;
-        //float TotalFee = TienMon + PhiVanChuyen;
-
-        //_TienMon.text = TienMon.ToString("N0") + " VND";
-        //_PhiVanChuyen.text = PhiVanChuyen.ToString("N0") + " VND";
-        //_TotalFee.text = TotalFee.ToString("N0") + " VND";
-
-        //the_order.fee = TotalFee;
+        // prepair to next step
+        WorkWithServer.Instance.GetFoodOfBrand(the_order.id_brand, AddFoodItem, AddFoodComplete);
+        void AddFoodItem(E_PostSlot_food food) {
+            FoodList_ScrollView.SpawnFromInfo(food);
+        }
+        void AddFoodComplete() {
+            RecalculateFee();
+        }
 
         // go to next step
-        _step2.SetActive(false); _step3.SetActive(true);
+        Step._step2.SetActive(false); Step._step3.SetActive(true);
+    }
+
+    private void RecalculateFee(GameObject callof_Item = null) {
+        FoodFee = 0;
+        the_additionFood.Clear();
+        int tableIndex = Table_selection.value;
+        
+        Transform ItemList = FoodList_ScrollView.GetHolder();
+        int index = 0;
+        foreach (Transform item in ItemList) {
+            if (index == 0) { index++; continue; } //skip template item
+            FoodList_Item_SpawnFromList food = item.GetComponent<FoodList_Item_SpawnFromList>();
+            if (food.IsSelected()) {
+                E_Order_Onside additionFood = new E_Order_Onside();
+                (E_PostSlot_food data, int quantity) = food.GetValue();
+                additionFood.id_brand = Store_info.id_brand;
+                additionFood.id_food = data.id_food;
+                additionFood.quantity = quantity;
+                additionFood.state = 0; // default state
+
+                the_additionFood.Add(additionFood);
+                FoodFee += data.price * quantity;
+            }
+        }
+        // update fee show
+        _PhiDatTruocDoAn.text = FoodFee.ToString() + " VND";
+        float discount = ((float)FoodFee / SlotFee) * 100;
+        string discount_str = (discount < 100.5f)? discount.ToString("N0") : "100";
+        _PhanTramGiamTru.text = "Đặt trước càng nhiều quý khách được giảm càng nhiều chi phí đặt cọc\n"
+            + $"Chi phí đặt cọc bàn lần này được giảm {discount_str}%";
     }
 
     public void Step3() {
-        //// validate input
-        //if (string.IsNullOrEmpty(_TenNguoiDatMon.text)) {
-        //    Notifi_Action.instance.Notifi_Act("Tên người đặt món không được bỏ trống");
-        //    return;
-        //}
-        //if (string.IsNullOrEmpty(_SoDienThoai.text)) {
-        //    Notifi_Action.instance.Notifi_Act("Số điện thoại liên hệ không được bỏ trống");
-        //    return;
-        //}
+        // validate input
 
-        //// update information
-        //the_order.username_appoint = _TenNguoiDatMon.text;
-        //the_order.phone_number = _SoDienThoai.text;
-        //the_order.pay_after = _ThanhToanKhiNhanHang.isOn;
-        //the_order.TakeAway_State = E_Order_TakeAway.OrderTakeAway_State.ChuaTiepNhan;
+        // update information
+        the_order.is_addition_food = (the_additionFood.Count > 0);
+        the_order.fee = Math.Max(FoodFee, SlotFee);
 
-        //// Upload to server
-        //WorkWithServer.Instance.InsertFoodOrderTakeAway(the_order, Success, Fail);
-        //void Success() { Notifi_Action.instance.Notifi_Act("Đặt hàng thành công!"); }
-        //void Fail() { Notifi_Action.instance.Notifi_Act("Đặt hàng thất bại!"); }
+        _PhiDatTruocMon.text = FoodFee.ToString("N0") + " đ";
+        _PhiDatCocBan.text = SlotFee.ToString("N0") + " đ";
+        _GiamTru.text = SlotFee > FoodFee ?
+            (-FoodFee).ToString("N0") + " đ" : "0 đ";
+        _TotalFee.text = the_order.fee.ToString("N0") + " đ";
 
-        //// finish show
-        //gameObject.SetActive(false);
+        // go to next step
+        Step._step3.SetActive(false); Step._step4.SetActive(true);
+    }
+
+    public void Step4() {
+        // validate input
+        if (string.IsNullOrWhiteSpace(_TenNguoiDatMon.text)) {
+            Notifi_Action.instance.Notifi_Act("Tên người đặt món không được để trống");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(_SoDienThoai.text)) {
+            Notifi_Action.instance.Notifi_Act("Số điện thoại không được để trống");
+            return;
+        }
+
+        // update information
+        the_order.username_appoint = _TenNguoiDatMon.text.Trim();
+        the_order.phone_number = _SoDienThoai.text.Trim();
+
+        // Upload to server
+        WorkWithServer.Instance.InsertTableSlotAppointment(the_order, Success, Fail);
+        void Success(E_Table_Slot_Appointment returnValue) {
+            Notifi_Action.instance.Notifi_Act("Đặt bàn thành công!");
+            if (!the_order.is_addition_food) { FinishShow(); }
+            AdditionFood2Server(returnValue.id_appointment);
+        }
+        void Fail() { Notifi_Action.instance.Notifi_Act("Đặt bàn thất bại!"); }
+
+    }
+
+    private void AdditionFood2Server(int AppointId) {
+        foreach (E_Order_Onside item in the_additionFood) {
+            WorkWithServer.Instance.InsertOrderOnside(AppointId, new List<E_Order_Onside>() { item },
+                SuccessCallback, ErrorCallback);
+        }
+        void SuccessCallback() {
+            Notifi_Action.instance.Notifi_Act("Đặt bàn thành công!\nĐặt trước đồ ăn thành công!");
+            FinishShow();
+        }
+        void ErrorCallback() {
+            YesNo_Fload yesno = FloadUI_Control_v2.instance.Open_YesNoFload(
+                "Đặt bàn thành công!\nĐặt trước đồ ăn thất bại!\nBạn có muốn thử đặt lại không?",
+                "Thử lại",
+                "Bỏ qua"
+            );
+            yesno.OnAnswer += FoodError_OnAnswerHandler;
+            FinishShow();
+        }
+        void FoodError_OnAnswerHandler(bool obj) {
+            if (obj) {
+                AdditionFood2Server(AppointId);
+            }
+            else {
+                FinishShow();
+            }
+        }
+    }
+
+    // finish show
+    void FinishShow() {
+        FloadUI_Control_v2.instance.Close_Fload();
     }
 }

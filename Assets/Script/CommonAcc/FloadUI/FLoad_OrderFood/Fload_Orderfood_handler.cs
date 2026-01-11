@@ -94,8 +94,7 @@ public class Fload_Orderfood_handler : MonoBehaviour
     private void Step0() {
         _step1.SetActive(true);
         _step2.SetActive(false);
-        _step3.SetActive(false);
-    }
+        _step3.SetActive(false);    }
 
     /// <summary>
     /// After finish step1 do it
@@ -169,10 +168,17 @@ public class Fload_Orderfood_handler : MonoBehaviour
 
         // Upload to server
         WorkWithServer.Instance.InsertFoodOrderTakeAway(the_order, Success, Fail);
-        void Success() { Notifi_Action.instance.Notifi_Act("Đặt hàng thành công!"); }
-        void Fail() { Notifi_Action.instance.Notifi_Act("Đặt hàng thất bại!"); }
+        void Success() { 
+            Notifi_Action.instance.Notifi_Act("Đặt hàng thành công!"); 
+            FinishShow();
+        }
+        void Fail() { 
+            Notifi_Action.instance.Notifi_Act("Đặt hàng thất bại!"); 
+        }
 
-        // finish show
-        gameObject.SetActive(false);
+    }
+    // finish show
+    void FinishShow() {
+        FloadUI_Control.Instance.HideFloads();// đang dùng FloatUI cũ
     }
 }

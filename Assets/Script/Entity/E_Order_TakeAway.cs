@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 [Serializable]
 public class E_Order_TakeAway
@@ -36,5 +36,17 @@ public class E_Order_TakeAway
         DangVanchuyen = 3,
         KhuChoDenLay = 4,
         HoanThanh = 5,
+    }
+    public static string GetStateString(int state_in) {
+        return state_in switch {
+            (int)OrderTakeAway_State.Huy => "Đã hủy",
+            (int)OrderTakeAway_State.ChuaTiepNhan => "Chưa tiếp nhận",
+            (int)OrderTakeAway_State.DangCheBien => "Đang chế biến",
+            (int)OrderTakeAway_State.SanSang => "Sẵn sàng",
+            (int)OrderTakeAway_State.DangVanchuyen => "Đang vận chuyển",
+            (int)OrderTakeAway_State.KhuChoDenLay => "Khu chờ đến lấy",
+            (int)OrderTakeAway_State.HoanThanh => "Hoàn thành",
+            _ => "Không xác định",
+        }; // thanks to Copilot for this switch expression
     }
 }
