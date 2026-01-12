@@ -1,7 +1,6 @@
 using NUnit.Framework;
 using System;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Scoll_SpawnFromList : MonoBehaviour
 {

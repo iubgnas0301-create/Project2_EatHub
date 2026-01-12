@@ -4,8 +4,8 @@ public class CloseApplication : MonoBehaviour
 {
     public void CloseApp()
     {
-        FloadUI_Control_v2.instance.Open_YesNoFload("Bạn có chắc chắn muốn thoát không?", "Thoát", "Hủy").OnAnswer += CloseApplication_OnAnswer; ;
-        Application.Quit();
+        FloadUI_Control_v2.instance.Open_YesNoFload("Bạn có chắc chắn muốn thoát không?", "Thoát", "Hủy").OnAnswer += CloseApplication_OnAnswer;
+        
     }
 
     private void CloseApplication_OnAnswer(bool obj) {
